@@ -7,19 +7,24 @@ const router = new VueRouter ({
     routes: [
         {
             path: '/',
-            redirect: '/main'
+            redirect: '/admin'
         },
         {
-            path: '/main',
-            name: 'Main',
-            component: () => import('@/views/main'),
+            path: '/login',
+            name: 'Login',
+            component: () => import('@/views/login')
+        },
+        {
+            path: '/admin',
+            name: 'Admin',
+            component: () => import('@/views/admin/admin'),
             children: [{
                     path: 'table',
                     name: 'Table',
-                    component: () => import('@/views/table')
+                    component: () => import('@/views/admin/table')
                 }, {
                     path: 'form',
-                    component: () => import('@/views/form')
+                    component: () => import('@/views/admin/form')
                 }
             ]
         }
