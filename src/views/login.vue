@@ -16,7 +16,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="login_submit" class="button">登录</el-button>
+        <el-button type="primary" @click="login_submit" class="button" round>登录</el-button>
       </el-form-item>
     </el-form>
   </div>

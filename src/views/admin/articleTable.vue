@@ -1,9 +1,8 @@
 <template>
   <div>
-    <h2>文章管理</h2>
-    
+    <h1 style="margin-top:0">文章管理</h1>
     <el-divider></el-divider>
-
+    <el-button type="primary" icon="el-icon-plus" style="margin-bottom:10px">创建文章</el-button>
     <el-table
       :data="articleList"
       element-loading-text="Loading"
@@ -21,7 +20,7 @@
 
       <el-table-column
         label="文章编号"
-        width="100">
+        width="80">
         <template slot-scope="scope">
           {{ scope.row.articleId }}
         </template>
@@ -63,34 +62,22 @@
 
       <el-table-column
         label="分类"
-        width="100">
+        width="150">
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.likes }}</el-tag>
+          <el-tag size="medium">{{ scope.row.likes }}</el-tag>
         </template>
       </el-table-column>
-
-      <!-- <el-table-column
-        label="姓名"
-        width="180">
-        <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column> -->
       
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
-            size="mini"
+            size="small"
+            icon="el-icon-edit"
             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button
-            size="mini"
+            size="small"
             type="danger"
+            icon="el-icon-delete"
             @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
