@@ -5,11 +5,15 @@
     </el-header>
 
     <el-container style="height:100%">
-      <el-aside class="aside-menu">
-        <aside-menu :handleRouter='handleRouter'></aside-menu>
-      </el-aside>
+      <aside-menu 
+      :handleRouter='handleRouter'
+      :isCollapse='isFold'>
+      </aside-menu>
 
       <el-main style="height:100%">
+        <div class="menu-fold" @click="isFold = !isFold">
+          <i :class="[ isFold ? 'el-icon-s-unfold' : 'el-icon-s-fold' ]" style="font-size:30px;"></i>
+        </div>
         <router-view/>
       </el-main>
 
@@ -29,6 +33,7 @@ export default {
   },
   data() {
     return {
+      isFold: false,
       router: 'table',
     };
   },
@@ -53,8 +58,18 @@ export default {
   height: 100%;
 }
 
-.aside-menu {
-  background-color: #545c64;
-  height: 100%;
+@media (max-width: 767px) {
+  .menu-fold {
+    position: relative;
+    top: -10px;
+    left: -10px;
+    height: 20px;
+  }
+}
+
+@media (min-width: 980px) {
+  .menu-fold {
+    display: none;
+  }
 }
 </style>

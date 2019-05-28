@@ -1,10 +1,9 @@
 <template>
   <div class="login-container">
+    <div class="title">
+      <b>Lgoin Form</b>
+    </div>
     <el-form ref="form" :model="login_data" size="medium" class="login-form">
-      <div class="title">
-        <b>Lgoin Form</b>
-      </div>
-
       <el-form-item>
         <el-input v-model="login_data.username" :clearable='true' :autofocus='true'>
           <template slot="prepend">用户名</template>
@@ -28,8 +27,8 @@
     data() {
       return {
         login_data: {
-          username: '',
-          password: ''
+          username: 'dounine',
+          password: '123456'
         }
       }
     },
@@ -51,8 +50,8 @@
   height: 100%;
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .login-form {
@@ -64,9 +63,12 @@
 }
 
 .title {
+  position: relative;
+  top: 300px;
   font-size: 30px;
   text-align: center;
   margin-bottom: 30px;
+  color: black;
 }
 
 .input_img {
