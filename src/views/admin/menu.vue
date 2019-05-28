@@ -5,7 +5,7 @@
     text-color="#fff"
     active-text-color="#ffd04b"
     mode="vertical"
-    collapse-transition="true"
+    :collapse-transition="true"
     style="height:100%">
     <el-submenu index="1">
       <template slot="title">
@@ -13,7 +13,7 @@
         <span slot="title">文章</span>
       </template>
       <el-menu-item-group title="分组一">
-        <el-menu-item index="1-1" @click="handleRouter('/admin')">文章列表</el-menu-item>
+        <el-menu-item index="1-1" @click="handleRouter('/admin/articleTable')">文章管理</el-menu-item>
         <el-menu-item index="1-2" @click="handleRouter('/admin')">编辑文章</el-menu-item>
       </el-menu-item-group>
     </el-submenu>

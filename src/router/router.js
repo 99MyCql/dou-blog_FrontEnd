@@ -25,6 +25,9 @@ const router = new VueRouter ({
                 }, {
                     path: 'form',
                     component: () => import('@/views/admin/form')
+                }, {
+                    path: 'articleTable',
+                    component: () => import('@/views/admin/articleTable')
                 }
             ]
         }
