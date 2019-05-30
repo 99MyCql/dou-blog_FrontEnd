@@ -102,7 +102,7 @@ export default {
       this.articleList = resp.data.list;
       console.log(this.articleList);
     }).catch((error) => {
-      this.$message.error('获取数据错误');
+      // this.$message.error('获取数据错误');
       console.log(error);
     })
   },

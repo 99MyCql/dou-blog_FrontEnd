@@ -2,9 +2,9 @@
   <div>
     <my-title title="编辑文章"/>
     <el-form ref="article" :model="article" label-width="120px" :rules="rules" size="mini">
-      <el-form-item size="default" class="headerButton">
-        <el-button @click="resetForm('article')" icon="el-icon-refresh-right"> 重置 </el-button>
-        <el-button type="primary" @click="submitForm('article')" icon="el-icon-s-promotion"> 发布 </el-button>
+      <el-form-item size="medium" class="headerButton">
+        <el-button @click="resetForm('article')" icon="el-icon-refresh-right">  重置  </el-button>
+        <el-button type="primary" @click="submitForm('article')" icon="el-icon-s-promotion">  发布  </el-button>
       </el-form-item>
 
       <el-form-item label="文章标题" prop="title">
@@ -31,7 +31,11 @@
           <el-button class="button" size="small " icon="el-icon-view" @click="previewVisible = true">打开预览</el-button>
           <el-button class="button" size="small" icon="el-icon-refresh" style="margin-left:0" @click="clearContent()">清空</el-button>
         </div>
-        <el-input v-model="article.content" type="textarea" :autosize="{ minRows: 30, maxRows: 99999 }" resize="none">
+        <el-input v-model="article.content"
+                  type="textarea"
+                  :autosize="{ minRows: 30, maxRows: 99999 }" 
+                  resize="none"
+                  placeholder="可以使用markdown语法">
         </el-input>
         <el-dialog
           title="预览"
@@ -155,7 +159,7 @@ export default {
   border: #333;
   background-color: #f6f6f6;
   font-size: 20px;
-  font-family: 'Monaco', courier, monospace;
+  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
 }
 
 code {

@@ -1,24 +1,39 @@
 <template>
-  <div class="login-container">
-    <div class="title">
-      <b>Lgoin Form</b>
-    </div>
-    <el-form ref="form" :model="login_data" size="medium" class="login-form">
-      <el-form-item>
-        <el-input v-model="login_data.username" :clearable='true' :autofocus='true'>
-          <template slot="prepend">用户名</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="login_data.password" :clearable='true' >
-          <template slot="prepend" style="width:10%">密码</template>
-        </el-input>
-      </el-form-item>
+  <div class="container">
+    <div class="login-wrapper">
+      <div class="login-title">
+        <b>Lgoin Form</b>
+      </div>
+      <!-- login title -->
 
-      <el-form-item>
-        <el-button type="primary" @click="login_submit" class="button" round>登录</el-button>
-      </el-form-item>
-    </el-form>
+      <el-form ref="form" :model="login_data" size="medium" class="login-form">
+        <el-form-item>
+          <el-input v-model="login_data.username" 
+                    clearable 
+                    autofocus
+                    placeholder="username"
+                    prefix-icon="el-icon-user">
+          </el-input>
+        </el-form-item>
+        <!-- username -->
+
+        <el-form-item>
+          <el-input v-model="login_data.password"
+                    show-password
+                    placeholder="password"
+                    prefix-icon="el-icon-lock">
+          </el-input>
+        </el-form-item>
+        <!-- passwd -->
+
+        <el-form-item>
+          <el-button type="primary" @click="login_submit" class="button" round>登录</el-button>
+          <el-button style="margin-left:0" @click="register" class="button" round>注册</el-button>
+        </el-form-item>
+        <!-- button -->
+
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -33,6 +48,9 @@
       }
     },
     methods: {
+      register() {
+        this.$router.push('/register');
+      },
       login_submit() {
         if (this.login_data.username == 'dounine' && this.login_data.password == '123456')
           this.$router.push('/admin');
@@ -44,44 +62,31 @@
 </script>
 
 <style>
-.login-container {
+.container {
   background-image: url('../assets/background.png');
   position: absolute;
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-.login-form {
-  top: 30%;
-  position: relative;
-  width: 20%;
-  padding: 20px 30px;
+.login-wrapper {
+  border: 1px solid #000;
   border-radius: 20px;
+  margin: 10% auto;
+  padding: 30px 60px;
+  width: 25%;
+  height: 50%;
 }
 
-.title {
-  position: relative;
-  top: 300px;
+.login-title {
   font-size: 30px;
   text-align: center;
-  margin-bottom: 30px;
   color: black;
-}
-
-.input_img {
-  padding-top: 3px;
-  height: 80%;
+  margin-bottom: 30px;
 }
 
 .button {
   margin-top: 10px;
   width: 100%;
-}
-
-.el-input-group__prepend {
-  width: 40px;
 }
 </style>

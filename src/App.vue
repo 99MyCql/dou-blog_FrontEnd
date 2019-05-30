@@ -12,6 +12,6 @@ export default {
 
 <style>
 #app {
-  font-family: "Console","Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-family: "Arial","Microsoft YaHei","??","??",sans-serif;
 }
 </style>

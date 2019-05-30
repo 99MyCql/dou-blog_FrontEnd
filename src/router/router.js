@@ -7,7 +7,7 @@ const router = new VueRouter ({
     routes: [
         {
             path: '/',
-            redirect: '/admin'
+            redirect: '/login'
         },
         {
             path: '/login',
@@ -15,22 +15,23 @@ const router = new VueRouter ({
             component: () => import('@/views/login')
         },
         {
+            path: '/register',
+            name: 'Register',
+            component: () => import('@/views/register')
+        },
+        {
             path: '/admin',
             name: 'Admin',
             component: () => import('@/views/admin/admin'),
             children: [{
-                    path: 'table',
-                    name: 'Table',
-                    component: () => import('@/views/admin/table')
-                }, {
-                    path: 'form',
-                    component: () => import('@/views/admin/form')
-                }, {
                     path: 'articleTable',
                     component: () => import('@/views/admin/articleTable')
                 }, {
                     path: 'articleEdit',
                     component: () => import('@/views/admin/articleEdit')
+                }, {
+                    path: 'userInfo',
+                    component: () => import('@/views/admin/form')
                 }
             ]
         }

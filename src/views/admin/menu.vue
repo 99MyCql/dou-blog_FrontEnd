@@ -1,5 +1,5 @@
 <template>
-  <el-menu default-active="/admin/articleTable"
+  <el-menu default-active="/admin"
     :collapse="isCollapse"
     :router="true"
     background-color="#545c64"
@@ -18,17 +18,9 @@
         <el-menu-item index="/admin/articleEdit">编辑文章</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
-    <el-menu-item index="/admin/form">
-      <i class="el-icon-menu"></i>
-      <span slot="title">Form</span>
-    </el-menu-item>
-    <el-menu-item index="/admin/table">
-      <i class="el-icon-document"></i>
-      <span slot="title">Table</span>
-    </el-menu-item>
-    <el-menu-item index="/admin">
+    <el-menu-item index="/admin/userInfo">
       <i class="el-icon-setting"></i>
-      <span slot="title">用户信息</span>
+      <span slot="title">个人信息</span>
     </el-menu-item>
   </el-menu>
 </template>

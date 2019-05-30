@@ -30,7 +30,7 @@ export default {
 @media (min-width: 980px) {
   .title {
     margin-top: 5px;
-    font-size: 30px;
+    font-size: 28px;
   }
 }
 </style>
