@@ -6,9 +6,9 @@
       </div>
       <!-- login title -->
 
-      <el-form ref="form" :model="login_data" size="medium" class="login-form">
-        <el-form-item>
-          <el-input v-model="login_data.username" 
+      <el-form ref="login_form" :model="login_form" size="medium" class="login-form" :rules="rules">
+        <el-form-item required>
+          <el-input v-model="login_form.username" 
                     clearable 
                     autofocus
                     placeholder="username"
@@ -17,8 +17,8 @@
         </el-form-item>
         <!-- username -->
 
-        <el-form-item>
-          <el-input v-model="login_data.password"
+        <el-form-item required>
+          <el-input v-model="login_form.password"
                     show-password
                     placeholder="password"
                     prefix-icon="el-icon-lock">
@@ -38,27 +38,69 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        login_data: {
-          username: 'dounine',
-          password: '123456'
-        }
-      }
-    },
-    methods: {
-      register() {
-        this.$router.push('/register');
+import { user_login } from '@/api/user.js';
+
+export default {
+  data() {
+    return {
+      login_form: {
+        username: '',
+        password: ''
       },
-      login_submit() {
-        if (this.login_data.username == 'dounine' && this.login_data.password == '123456')
-          this.$router.push('/admin');
-        else 
-          this.$message.error('账号密码错误');
+      rules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        passwd: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ]
+      }
+    }
+  },
+  methods: {
+    register() {
+      this.$router.push('/register');
+    },
+    login_submit() {
+      if (this.login_form.username != '' && this.login_form.password != '') {
+        user_login(this.login_form.username, this.login_form.password)
+        .then((resp) => {
+          let data = resp.data;
+          console.log(data);
+          if (data.code == 0) {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: 'error'
+            });
+          }
+          else {
+            this.$message({
+              message: '登录成功',
+              type: 'success'
+            });
+            this.$router.push('/admin');
+          }
+          })
+        .catch(error => {
+          this.$message({
+            showClose: true,
+            message: error,
+            type: 'error'
+          });
+          console.log(error);
+        });
+      }
+      else {
+        this.$message({
+          showClose: true,
+          message: '账号密码不能为空',
+          type: 'error'
+        })
       }
     }
   }
+}
 </script>
 
 <style>
