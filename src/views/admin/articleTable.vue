@@ -1,8 +1,7 @@
 <template>
   <div>
-    <h1 style="margin-top:0">文章管理</h1>
-    <el-divider></el-divider>
-    <el-button type="primary" icon="el-icon-plus" style="margin-bottom:10px">创建文章</el-button>
+    <my-title title="文章列表"/>
+    <el-button type="primary" icon="el-icon-plus" style="margin-bottom:10px" @click="handleRouter('/admin/articleEdit')">创建文章</el-button>
     <el-table
       :data="articleList"
       element-loading-text="Loading"
@@ -64,7 +63,7 @@
         label="分类"
         width="150">
         <template slot-scope="scope">
-          <el-tag size="medium">{{ scope.row.likes }}</el-tag>
+          <el-tag size="medium">{{ scope.row.articleCategories }}</el-tag>
         </template>
       </el-table-column>
       
@@ -87,8 +86,12 @@
 
 <script>
 import { article_listAll } from '@/api/article.js';
+import MyTitle from '@/components/title.vue';
 
 export default {
+  components: {
+    MyTitle
+  },
   data() {
     return {
       articleList: []
@@ -104,6 +107,9 @@ export default {
     })
   },
   methods: {
+    handleRouter(router) {
+      this.$router.push(router);
+    },
     handleEdit(index, row) {
       console.log(index, row);
     },
