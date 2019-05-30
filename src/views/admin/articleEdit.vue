@@ -1,9 +1,14 @@
 <template>
   <div>
     <my-title title="编辑文章"/>
-    <el-form ref="article" :model="article" label-width="120px" :rules="rules">
+    <el-form ref="article" :model="article" label-width="120px" :rules="rules" size="mini">
+      <el-form-item size="default" class="headerButton">
+        <el-button @click="resetForm('article')" icon="el-icon-refresh-right"> 重置 </el-button>
+        <el-button type="primary" @click="submitForm('article')" icon="el-icon-s-promotion"> 发布 </el-button>
+      </el-form-item>
+
       <el-form-item label="文章标题" prop="title">
-        <el-input v-model="article.name"></el-input>
+        <el-input v-model="article.title" clearable></el-input>
       </el-form-item>
 
       <el-form-item label="文章描述" prop="desc">
@@ -21,7 +26,26 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="上传文件">
+      <el-form-item label="文章内容" size="medium">
+        <div class="contentTitle">
+          <el-button class="button" size="small " icon="el-icon-view" @click="previewVisible = true">打开预览</el-button>
+          <el-button class="button" size="small" icon="el-icon-refresh" style="margin-left:0" @click="clearContent()">清空</el-button>
+        </div>
+        <el-input v-model="article.content" type="textarea" :autosize="{ minRows: 30, maxRows: 99999 }" resize="none">
+        </el-input>
+        <el-dialog
+          title="预览"
+          :visible.sync="previewVisible"
+          :fullscreen="true"
+          :before-close="handleClose">
+          <div v-html="compiledMd()" class="mdPreview"></div>
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="previewVisible = false">确 定</el-button>
+          </span>
+        </el-dialog>
+      </el-form-item>
+
+      <!-- <el-form-item label="上传文件">
         <el-upload
           ref="upload"
           drag
@@ -30,20 +54,16 @@
           :auto-upload="false">
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将<b>.md</b>文件拖到此处，或<em>点击上传</em></div>
-          <!-- <div class="el-upload__tip" slot="tip">只能上传.md文件</div> -->
+          <div class="el-upload__tip" slot="tip">只能上传.md文件</div>
         </el-upload>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('article')">发布</el-button>
-        <el-button @click="resetForm('article')">重置</el-button>
-      </el-form-item>
+      </el-form-item> -->      
     </el-form>
   </div>
 </template>
 
 <script>
 import MyTitle from '@/components/title.vue';
+import marked from 'marked';
 
 export default {
   components: {
@@ -51,10 +71,12 @@ export default {
   },
   data() {
     return {
+      previewVisible: false,
       article: {
         title: '',
         desc: '',
-        articleCategories: ''
+        articleCategories: '',
+        content: ''
       },
       rules: {
         title: [
@@ -67,21 +89,87 @@ export default {
     }
   },
   methods: {
+    clearContent() {
+      this.$confirm('确定要清空文章内容吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.article.content = '';
+        this.$message({
+          type: 'success',
+          message: '清空成功!'
+        });
+      })
+    },
+    compiledMd() {
+      var md = marked(this.article.content, { sanitize: true });
+      if (this.article.content == '') {
+        md = '啥也没有'
+      }
+      return md;
+    },
     submitForm(formName) {
+      // el-form自带的验证
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$message('submit!');
+          console.log(this.article);
         } else {
           this.$message.error('error submit!!');
           return false;
         }
       });
-      this.$refs.upload.submit();
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
-      this.$refs.upload.clearFiles();
+      this.$confirm('确定要重置所有内容吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$refs[formName].resetFields();
+        this.$message({
+          type: 'success',
+          message: '清空成功!'
+        });
+      })
     }
   }
 }
 </script>
+
+<style>
+.headerButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+.mdPreview {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0 20px;
+  border: #333;
+  background-color: #f6f6f6;
+  font-size: 20px;
+  font-family: 'Monaco', courier, monospace;
+}
+
+code {
+  color: #f66;
+}
+
+.contentTitle {
+  background: #f6f6f6d5;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.contentTitle .el-button {
+  border-radius: 0;
+}
+</style>
