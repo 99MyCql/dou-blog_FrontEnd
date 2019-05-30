@@ -27,8 +27,8 @@
         <!-- passwd -->
 
         <el-form-item>
-          <el-button type="primary" @click="login_submit" class="button" round>登录</el-button>
-          <el-button style="margin-left:0" @click="register" class="button" round>注册</el-button>
+          <el-button type="primary" @click="login_submit" class="login-button" round>登录</el-button>
+          <el-button style="margin-left:0" @click="register" class="login-button" round>注册</el-button>
         </el-form-item>
         <!-- button -->
 
@@ -69,24 +69,49 @@
   width: 100%;
 }
 
-.login-wrapper {
-  border: 1px solid #000;
-  border-radius: 20px;
-  margin: 10% auto;
-  padding: 30px 60px;
-  width: 25%;
-  height: 50%;
+@media (min-width: 980px) {
+  .login-wrapper {
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin: 200px auto;
+    padding: 30px 80px;
+    width: 350px;
+    height: 300px;
+  }
+
+  .login-title {
+    font-size: 30px;
+    text-align: center;
+    color: black;
+    margin-bottom: 30px;
+  }
+
+  .login-button {
+    margin-top: 10px;
+    width: 100%;
+  }
 }
 
-.login-title {
-  font-size: 30px;
-  text-align: center;
-  color: black;
-  margin-bottom: 30px;
-}
+@media (max-width: 767px) {
+  .login-wrapper {
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin: 150px auto;
+    padding: 30px 30px;
+    width: 230px;
+    height: 300px;
+  }
 
-.button {
-  margin-top: 10px;
-  width: 100%;
+  .login-title {
+    font-size: 30px;
+    text-align: center;
+    color: black;
+    margin-bottom: 30px;
+  }
+
+  .login-button {
+    margin-top: 10px;
+    width: 100%;
+  }
 }
 </style>

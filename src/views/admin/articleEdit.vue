@@ -28,8 +28,8 @@
 
       <el-form-item label="文章内容" size="medium">
         <div class="contentTitle">
-          <el-button class="button" size="small " icon="el-icon-view" @click="previewVisible = true">打开预览</el-button>
-          <el-button class="button" size="small" icon="el-icon-refresh" style="margin-left:0" @click="clearContent()">清空</el-button>
+          <el-button size="small " icon="el-icon-view" @click="previewVisible = true">打开预览</el-button>
+          <el-button size="small" icon="el-icon-refresh" style="margin-left:0" @click="clearContent()">清空</el-button>
         </div>
         <el-input v-model="article.content"
                   type="textarea"
