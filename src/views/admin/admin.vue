@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import AsideMenu from './menu';
+import AsideMenu from '@/components/menu';
 import HeadEr from '@/components/header';
 
 export default {

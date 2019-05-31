@@ -178,7 +178,7 @@ export default {
             // 提交成功
             else {
               this.$message.success(data.msg);
-              this.$router.push('/admin/articleTable');
+              this.$router.push('/admin/articleList');
             }
           })
           // 请求响应失败

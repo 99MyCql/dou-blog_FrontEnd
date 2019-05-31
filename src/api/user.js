@@ -24,3 +24,24 @@ export const user_register = (name, password) => {
     }
   })
 }
+
+export const user_listAll = (page, size) => {
+  return axios.request({
+    method: 'get',
+    url: '/api/user/listAll',
+    params: {
+      page,
+      size
+    }
+  })
+}
+
+export const user_delete = (id) => {
+  return axios.request({
+    method: 'get',
+    url: '/api/user/delete',
+    params: {
+      id
+    }
+  })
+}

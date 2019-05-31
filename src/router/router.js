@@ -10,6 +10,11 @@ const router = new VueRouter ({
             redirect: '/login'
         },
         {
+            path: '/main',
+            name: 'Main',
+            component: () => import('@/views/main')
+        },
+        {
             path: '/login',
             name: 'Login',
             component: () => import('@/views/login')
@@ -24,15 +29,18 @@ const router = new VueRouter ({
             name: 'Admin',
             component: () => import('@/views/admin/admin'),
             children: [{
-                    path: 'articleTable',
-                    component: () => import('@/views/admin/articleTable')
+                    path: 'articleList',
+                    component: () => import('@/views/admin/articleList')
                 }, {
                     path: 'articleEdit',
                     name: 'articleEdit',
                     component: () => import('@/views/admin/articleEdit')
                 }, {
                     path: 'userInfo',
-                    component: () => import('@/views/admin/form')
+                    component: () => import('@/views/admin/userInfo')
+                }, {
+                    path: 'userList',
+                    component: () => import('@/views/admin/userList')
                 }
             ]
         }
