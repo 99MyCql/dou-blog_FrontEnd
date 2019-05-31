@@ -22,22 +22,6 @@ export const article_submit = (article) => {
   })
 }
 
-export const article_insert = (article) => {
-  return axios.request({
-    method: 'post',
-    url: '/api/article/insert',
-    data: article
-  })
-}
-
-export const article_update = (article) => {
-  return axios.request({
-    method: 'post',
-    url: '/api/article/update',
-    data: article
-  })
-}
-
 export const article_delete = (id) => {
   return axios.request({
     method: 'get',

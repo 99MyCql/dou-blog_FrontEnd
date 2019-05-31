@@ -1,6 +1,6 @@
 <template>
   <div>
-    <my-title title="编辑文章"/>
+    <page-title title="编辑文章"/>
     <el-form ref="article" :model="article" label-width="120px" :rules="rules" size="mini">
       <el-form-item size="medium" class="headerButton">
         <el-button @click="resetForm('article')" icon="el-icon-refresh-right">  重置  </el-button>
@@ -66,13 +66,13 @@
 </template>
 
 <script>
-import MyTitle from '@/components/title';
+import pageTitle from '@/components/pageTitle';
 import marked from 'marked';
-import { article_submit } from '@/api/article';
+import { article_submit, article_findByArticleTitle } from '@/api/article';
 
 export default {
   components: {
-    MyTitle
+    pageTitle
   },
   data() {
     return {
@@ -93,7 +93,45 @@ export default {
       }
     }
   },
+  created() {
+    let articleTitle = this.$router.currentRoute.query.articleTitle;
+    console.log(articleTitle);
+    if (articleTitle != undefined) {
+      this.getArticle(articleTitle);
+    }
+  },
   methods: {
+    // 通过文章标题获取文章
+    getArticle(articleTitle) {
+      article_findByArticleTitle(articleTitle)
+      .then(resp => {
+        let data = resp.data;
+        console.log(data);
+        // 找寻失败
+        if (data.code == 0) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error'
+          });
+        }
+        // 找寻成功
+        else {
+          this.article = JSON.parse(data.data);
+        }
+      })
+      // 请求响应异常
+      .catch(error => {
+        this.$message({
+          showClose: true,
+          type: 'error',
+          message: '出现了一个网络请求错误'
+        });
+        console.log(error);
+      });
+    },
+
+    // 清空文章内容
     clearContent() {
       this.$confirm('确定要清空文章内容吗?', '提示', {
         confirmButtonText: '确定',
@@ -107,6 +145,8 @@ export default {
         });
       })
     },
+
+    // 字符串转换markdown
     compiledMd() {
       var md = marked(this.article.articleContent, { sanitize: true });
       if (this.article.articleContent == '') {
@@ -114,6 +154,8 @@ export default {
       }
       return md;
     },
+
+    // 提交表单
     submitForm(formName) {
       // el-form自带的验证
       this.$refs[formName].validate((valid) => {
@@ -124,19 +166,19 @@ export default {
           // 请求响应成功
           .then(resp => {
             let data = resp.data;
-            // 提交成功
+            console.log(data);
+            // 提交失败
             if (data.code == 0) {
-              console.log(data);
               this.$message({
                 showClose: true,
                 type: 'error',
                 message: data.msg
               });
-              this.$router.push('/admin/articleEdit');
             }
-            // 提交失败
+            // 提交成功
             else {
               this.$message.success(data.msg);
+              this.$router.push('/admin/articleTable');
             }
           })
           // 请求响应失败
@@ -155,6 +197,8 @@ export default {
         }
       });
     },
+
+    // 重置表单
     resetForm(formName) {
       this.$confirm('确定要重置所有内容吗?', '提示', {
         confirmButtonText: '确定',

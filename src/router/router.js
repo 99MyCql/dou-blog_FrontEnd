@@ -28,6 +28,7 @@ const router = new VueRouter ({
                     component: () => import('@/views/admin/articleTable')
                 }, {
                     path: 'articleEdit',
+                    name: 'articleEdit',
                     component: () => import('@/views/admin/articleEdit')
                 }, {
                     path: 'userInfo',

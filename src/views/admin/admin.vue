@@ -14,7 +14,9 @@
         <div class="menu-fold" @click="isFold = !isFold">
           <i :class="[ isFold ? 'el-icon-s-unfold' : 'el-icon-s-fold' ]" style="font-size:30px;"></i>
         </div>
-        <router-view/>
+        <transition>
+          <router-view/>
+        </transition>
       </el-main>
 
     </el-container>
