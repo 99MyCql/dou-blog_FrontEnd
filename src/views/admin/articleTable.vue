@@ -76,7 +76,7 @@
             size="small"
             type="danger"
             icon="el-icon-delete"
-            @click="deleteArticle(scope.$index, scope.row)">删除</el-button>
+            @click="deleteArticle(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -112,8 +112,8 @@ export default {
     handleEdit(index, row) {
       console.log(index, row);
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+    deleteArticle(article) {
+      console.log(row);
     }
   }
 }
