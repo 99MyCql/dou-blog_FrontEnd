@@ -18,18 +18,17 @@
       </el-table-column>
 
       <el-table-column
-        label="文章编号"
-        width="80">
-        <template slot-scope="scope">
-          {{ scope.row.articleId }}
-        </template>
-      </el-table-column>
-
-      <el-table-column
         label="文章标题"
         width="180">
         <template slot-scope="scope">
           {{ scope.row.articleTitle }}
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="文章摘要">
+        <template slot-scope="scope">
+          {{ scope.row.articleTabloid }}
         </template>
       </el-table-column>
 
@@ -77,7 +76,7 @@
             size="small"
             type="danger"
             icon="el-icon-delete"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            @click="deleteArticle(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

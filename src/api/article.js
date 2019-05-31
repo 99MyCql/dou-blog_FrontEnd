@@ -14,11 +14,19 @@ export const article_listAll = (page, size) => {
   })
 }
 
+export const article_submit = (article) => {
+  return axios.request({
+    method: 'post',
+    url: '/api/article/submit',
+    data: article
+  })
+}
+
 export const article_insert = (article) => {
   return axios.request({
     method: 'post',
     url: '/api/article/insert',
-    date: article
+    data: article
   })
 }
 
@@ -26,7 +34,7 @@ export const article_update = (article) => {
   return axios.request({
     method: 'post',
     url: '/api/article/update',
-    date: article
+    data: article
   })
 }
 
@@ -40,12 +48,12 @@ export const article_delete = (id) => {
   })
 }
 
-export const article_findByArticleId = (articleId) => {
+export const article_findByArticleTitle = (articleTitle) => {
   return axios.request({
     method: 'get',
-    url: '/api/article/findByArticleId',
+    url: '/api/article/findByArticleTitle',
     params: {
-      articleId
+      articleTitle
     }
   })
 }

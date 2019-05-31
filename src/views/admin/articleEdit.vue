@@ -7,12 +7,12 @@
         <el-button type="primary" @click="submitForm('article')" icon="el-icon-s-promotion">  发布  </el-button>
       </el-form-item>
 
-      <el-form-item label="文章标题" prop="title">
-        <el-input v-model="article.title" clearable></el-input>
+      <el-form-item label="文章标题" prop="articleTitle">
+        <el-input v-model="article.articleTitle" clearable></el-input>
       </el-form-item>
 
-      <el-form-item label="文章描述" prop="desc">
-        <el-input type="textarea" v-model="article.desc" :rows="3"></el-input>
+      <el-form-item label="文章描述" prop="articleTabloid">
+        <el-input type="textarea" v-model="article.articleTabloid" :rows="3"></el-input>
       </el-form-item>
 
       <el-form-item label="文章分类">
@@ -31,7 +31,7 @@
           <el-button size="small " icon="el-icon-view" @click="previewVisible = true">打开预览</el-button>
           <el-button size="small" icon="el-icon-refresh" style="margin-left:0" @click="clearContent()">清空</el-button>
         </div>
-        <el-input v-model="article.content"
+        <el-input v-model="article.articleContent"
                   type="textarea"
                   :autosize="{ minRows: 30, maxRows: 99999 }" 
                   resize="none"
@@ -40,8 +40,8 @@
         <el-dialog
           title="预览"
           :visible.sync="previewVisible"
-          :fullscreen="true"
-          :before-close="handleClose">
+          :fullscreen="true">
+          <!-- :before-close=""> -->
           <div v-html="compiledMd()" class="mdPreview"></div>
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="previewVisible = false">确 定</el-button>
@@ -66,8 +66,9 @@
 </template>
 
 <script>
-import MyTitle from '@/components/title.vue';
+import MyTitle from '@/components/title';
 import marked from 'marked';
+import { article_submit } from '@/api/article';
 
 export default {
   components: {
@@ -77,16 +78,16 @@ export default {
     return {
       previewVisible: false,
       article: {
-        title: '',
-        desc: '',
+        articleTitle: '',
+        articleTabloid: '',
         articleCategories: '',
-        content: ''
+        articleContent: ''
       },
       rules: {
-        title: [
+        articleTitle: [
           { required: true, message: '请输入文章标题', trigger: 'blur' }
         ],
-        desc: [
+        articleTabloid: [
           { required: true, message: '请输入文章描述', trigger: 'blur' }
         ],
       }
@@ -99,7 +100,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.article.content = '';
+        this.article.articleContent = '';
         this.$message({
           type: 'success',
           message: '清空成功!'
@@ -107,8 +108,8 @@ export default {
       })
     },
     compiledMd() {
-      var md = marked(this.article.content, { sanitize: true });
-      if (this.article.content == '') {
+      var md = marked(this.article.articleContent, { sanitize: true });
+      if (this.article.articleContent == '') {
         md = '啥也没有'
       }
       return md;
@@ -116,12 +117,41 @@ export default {
     submitForm(formName) {
       // el-form自带的验证
       this.$refs[formName].validate((valid) => {
+        // 如果表单验证通过
         if (valid) {
-          this.$message('submit!');
           console.log(this.article);
-        } else {
-          this.$message.error('error submit!!');
-          return false;
+          article_submit(this.article)
+          // 请求响应成功
+          .then(resp => {
+            let data = resp.data;
+            // 提交成功
+            if (data.code == 0) {
+              console.log(data);
+              this.$message({
+                showClose: true,
+                type: 'error',
+                message: data.msg
+              });
+              this.$router.push('/admin/articleEdit');
+            }
+            // 提交失败
+            else {
+              this.$message.success(data.msg);
+            }
+          })
+          // 请求响应失败
+          .catch(error => {
+            console.log(error);
+            this.$message({
+                showClose: true,
+                type: 'error',
+                message: '出现了一个网络请求错误'
+              })
+          });
+        }
+        // 表单验证未通过
+        else {
+          this.$message.error('验证错误');
         }
       });
     },
