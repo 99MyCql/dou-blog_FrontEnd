@@ -60,7 +60,7 @@ export default {
   height: 100%;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 980px) {
   .menu-fold {
     position: relative;
     top: -10px;

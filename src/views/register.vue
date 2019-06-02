@@ -161,7 +161,7 @@ export default {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 980px) {
   .register-wrapper {
     border: 1px solid #000;
     border-radius: 20px;

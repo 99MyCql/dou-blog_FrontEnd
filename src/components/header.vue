@@ -19,7 +19,7 @@
   z-index: 99;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 980px) {
   .brand {
     display: flex;
     flex-direction: row;

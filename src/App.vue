@@ -16,4 +16,7 @@ export default {
 #app {
   font-family: "Arial","Microsoft YaHei","??","??",sans-serif;
 }
+a {
+  text-decoration: none;
+}
 </style>

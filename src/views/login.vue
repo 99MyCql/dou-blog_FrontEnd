@@ -115,7 +115,7 @@ export default {
   .login-wrapper {
     border: 1px solid #000;
     border-radius: 10px;
-    margin: 200px auto;
+    margin: 180px auto 0 auto;
     padding: 30px 80px;
     width: 350px;
     height: 300px;
@@ -134,11 +134,11 @@ export default {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 980px) {
   .login-wrapper {
     border: 1px solid #000;
     border-radius: 10px;
-    margin: 150px auto;
+    margin: 150px auto 0 auto;
     padding: 30px 30px;
     width: 230px;
     height: 300px;

@@ -17,12 +17,12 @@
 
       <el-form-item label="文章分类">
         <el-select v-model="article.articleCategories" placeholder="请选择分类">
-          <el-option label="分类一" value="categories1"></el-option>
-          <el-option label="分类二" value="categories2"></el-option>
-          <el-option label="分类三" value="categories3"></el-option>
-          <el-option label="分类四" value="categories4"></el-option>
-          <el-option label="分类五" value="categories5"></el-option>
-          <el-option label="分类六" value="categories6"></el-option>
+          <el-option label="分类一" value="category1"></el-option>
+          <el-option label="分类二" value="category2"></el-option>
+          <el-option label="分类三" value="category3"></el-option>
+          <el-option label="分类四" value="category4"></el-option>
+          <el-option label="分类五" value="category5"></el-option>
+          <el-option label="分类六" value="category6"></el-option>
         </el-select>
       </el-form-item>
 
@@ -42,7 +42,7 @@
           :visible.sync="previewVisible"
           :fullscreen="true">
           <!-- :before-close=""> -->
-          <div v-html="compiledMd()" class="mdPreview"></div>
+          <md-view :content="compiledMd()"/>
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="previewVisible = false">确 定</el-button>
           </span>
@@ -67,12 +67,14 @@
 
 <script>
 import pageTitle from '@/components/pageTitle';
+import mdView from '@/components/mdView';
 import marked from 'marked';
 import { article_submit, article_findByArticleTitle } from '@/api/article';
 
 export default {
   components: {
-    pageTitle
+    pageTitle,
+    mdView
   },
   data() {
     return {
@@ -222,22 +224,6 @@ export default {
   flex-direction: row;
   justify-content: flex-end;
   margin-right: 20px;
-}
-
-.mdPreview {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 0 20px;
-  border: #333;
-  background-color: #f6f6f6;
-  font-size: 20px;
-  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
-}
-
-code {
-  color: #f66;
 }
 
 .contentTitle {
