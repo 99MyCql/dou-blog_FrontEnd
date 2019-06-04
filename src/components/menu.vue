@@ -24,11 +24,6 @@
       <i class="el-icon-user-solid"></i>
       <span slot="title">用户列表</span>
     </el-menu-item>
-
-    <el-menu-item index="/admin/userInfo">
-      <i class="el-icon-setting"></i>
-      <span slot="title">个人信息</span>
-    </el-menu-item>
   </el-menu>
 </template>
 

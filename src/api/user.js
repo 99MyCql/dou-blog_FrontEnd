@@ -3,13 +3,13 @@ import axios from 'axios'
 // 允许跨域携带cookie
 // axios.defaults.withCredentials = true;
 
-export const user_login = (name, passwd) => {
+export const user_login = (name, password) => {
   return axios.request({
     method: 'get',
     url: '/api/user/login',
     params: {
       name,
-      passwd
+      password
     }
   })
 }
@@ -53,5 +53,22 @@ export const user_findByName = (name) => {
     params: {
       name
     }
+  })
+}
+
+export const user_update = (user) => {
+  return axios.request({
+    method: 'post',
+    url: '/api/user/update',
+    data: user
+      // birthday: string,
+      // email: string,
+      // gender: 0,
+      // name: string,
+      // password: string,
+      // personalBrief: string,
+      // phone: string,
+      // qq: string,
+      // role: string
   })
 }

@@ -14,13 +14,14 @@ var store = {
     localStorage.userName = userName;
   },
   setIsLoginAction (isLogin) {
-    if (this.debug) console.log('setIsLoginAction triggered with true');
+    if (this.debug) console.log('setIsLoginAction triggered with', isLogin);
     this.state.user.isLogin = isLogin;
     localStorage.isLogin = isLogin;
   },
   setRoleAction (role) {
     if (this.debug) console.log('setRoleAction triggered with', role);
     this.state.user.role = role;
+    localStorage.role = role;
   },
   clearStateAction () {
     if (this.debug) console.log('clearStateAction triggered');

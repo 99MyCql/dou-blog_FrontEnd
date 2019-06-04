@@ -30,6 +30,11 @@ const normalRoutes = [
     path: '/register',
     name: 'Register',
     component: () => import('@/views/register')
+  },
+  {
+    path: '/userInfo',
+    name: 'UserInfo',
+    component: () => import('@/views/userInfo')
   }
 ]
 
@@ -39,6 +44,7 @@ const adminRoutes = [
     path: '/admin',
     name: 'Admin',
     component: () => import('@/views/admin/admin'),
+    redirect: '/admin/articleList',
     children: [{
         path: 'articleList',
         component: () => import('@/views/admin/articleList')
@@ -46,9 +52,6 @@ const adminRoutes = [
         path: 'articleEdit',
         name: 'articleEdit',
         component: () => import('@/views/admin/articleEdit')
-      }, {
-        path: 'userInfo',
-        component: () => import('@/views/admin/userInfo')
       }, {
         path: 'userList',
         component: () => import('@/views/admin/userList')
@@ -66,6 +69,7 @@ const router = new VueRouter ({
 if (window.localStorage.getItem('isLogin')) {
   store.setIsLoginAction(window.localStorage.getItem('isLogin'));
   store.setUserNameAction(window.localStorage.getItem('userName'));
+  store.setRoleAction(window.localStorage.getItem('role'));
 }
 
 // 设置路由跳转前的验证
@@ -104,8 +108,9 @@ router.beforeEach((to, from, next) => {
           if (user.role == 'admin') {
             console.log('the user is admin');
             router.addRoutes(adminRoutes); // 动态添加admin可访问路由表
+            console.log('addrouters', adminRoutes);
           }
-          next({ to, replace: true });
+          next('/home');
         }
       })
       // 请求异常

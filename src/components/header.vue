@@ -13,7 +13,7 @@
     </div>
     <!-- brand -->
 
-    <div>
+    <div style="z-index:999">
       <el-dropdown trigger="click">
         <a class="avatar">
           <img src="https://avatars2.githubusercontent.com/u/41814469?s=40&v=4" style="display:inline-block">
@@ -27,7 +27,7 @@
             <a @click="handleRouter('/admin')"><i class="el-icon-s-grid"></i>后台管理</a>
           </el-dropdown-item>
           <el-dropdown-item>
-            <a><i class="el-icon-setting"></i>个人信息</a>
+            <a @click="handleRouter('/userInfo')"><i class="el-icon-setting"></i>个人信息</a>
           </el-dropdown-item>
           <el-dropdown-item>
             <a><i class="el-icon-question"></i>反馈</a>
@@ -53,6 +53,14 @@ export default {
       this.$router.push('/');
     },
     handleRouter(router) {
+      if (router == '/admin' && store.state.user.role != 'admin') {
+        this.$message({
+          showClose: true,
+          message: '莫得权限',
+          type: 'warning'
+        });
+        return;
+      }
       this.$router.push(router);
     }
   }
