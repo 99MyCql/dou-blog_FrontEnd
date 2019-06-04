@@ -102,7 +102,7 @@ router.beforeEach((to, from, next) => {
         }
         // 获取该用户成功
         else {
-          let user = JSON.parse(data.msg);
+          let user = JSON.parse(data.data);
           console.log(user);
           store.setRoleAction(user.role);
           if (user.role == 'admin') {
