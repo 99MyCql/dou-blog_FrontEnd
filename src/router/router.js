@@ -75,7 +75,7 @@ if (window.localStorage.getItem('isLogin')) {
 // 设置路由跳转前的验证
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
-  if (to.path == '/login') {
+  if (to.path == '/login' || to.path == '/register') {
     next();
     return;
   }

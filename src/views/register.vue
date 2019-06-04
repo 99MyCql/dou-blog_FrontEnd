@@ -143,7 +143,7 @@ export default {
     border: 1px solid #000;
     border-radius: 20px;
     margin: 200px auto;
-    padding: 30px 60px;
+    padding: 40px 60px 20px 60px;
     width: 500px;
     height: 400px;
   }
