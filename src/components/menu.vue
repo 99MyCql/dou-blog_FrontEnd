@@ -1,5 +1,5 @@
 <template>
-  <el-menu default-active="/admin"
+  <el-menu default-active="/admin/articleList"
     :collapse="isCollapse"
     :router="true"
     background-color="#545c64"
@@ -8,11 +8,6 @@
     mode="vertical"
     :collapse-transition="true"
     style="height:100%">
-
-    <el-menu-item index="/home">
-      <i class="el-icon-s-home"></i>
-      <span slot="title">首页</span>
-    </el-menu-item>
 
     <el-submenu index="/admin">
       <template slot="title">

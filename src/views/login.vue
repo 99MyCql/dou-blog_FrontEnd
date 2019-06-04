@@ -39,6 +39,7 @@
 
 <script>
 import { user_login } from '@/api/user.js';
+import store from '@/store/store';
 
 export default {
   data() {
@@ -62,11 +63,14 @@ export default {
       this.$router.push('/register');
     },
     login_submit() {
+      // 账号密码不能为空
       if (this.login_form.username != '' && this.login_form.password != '') {
         user_login(this.login_form.username, this.login_form.password)
+        // 请求成功
         .then((resp) => {
           let data = resp.data;
           console.log(data);
+          // login失败
           if (data.code == 0) {
             this.$message({
               showClose: true,
@@ -74,14 +78,19 @@ export default {
               type: 'error'
             });
           }
+          // 登录成功
           else {
             this.$message({
               message: '登录成功',
               type: 'success'
             });
-            this.$router.push('/admin');
+            store.setUserNameAction(this.login_form.username);
+            let isLogin = true;
+            store.setIsLoginAction(isLogin);
+            this.$router.push('/home');
           }
-          })
+        })
+        // 请求异常
         .catch(error => {
           this.$message({
             showClose: true,
@@ -91,6 +100,7 @@ export default {
           console.log(error);
         });
       }
+      // 账号密码为空
       else {
         this.$message({
           showClose: true,

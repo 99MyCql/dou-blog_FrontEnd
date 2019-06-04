@@ -45,3 +45,13 @@ export const user_delete = (id) => {
     }
   })
 }
+
+export const user_findByName = (name) => {
+  return axios.request({
+    method: 'get',
+    url: '/api/user/findByName',
+    params: {
+      name
+    }
+  })
+}

@@ -5,7 +5,7 @@
     </el-header>
 
     <el-main class="home-main">
-      <el-carousel :interval="4000" type="card" class="carousel">
+      <el-carousel :interval="2000" type="card" class="carousel">
         <el-carousel-item>
           <el-image src="https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"></el-image>
         </el-carousel-item>

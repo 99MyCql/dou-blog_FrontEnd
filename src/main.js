@@ -12,10 +12,14 @@ Vue.use(ElementUI);
 import Highlight from './utils/highlight'; // from 路径是highlight.js的路径，纯属自定义
 Vue.use(Highlight);
 
-// 将定义好的 router 作为Vue对象的一个属性，方便调用(this.$router)
+// 将定义好的 router 作为全局Vue对象的一个属性，方便调用(this.$router)
 import router from './router/router';
+
+// 导入 store 作为全局Vue对象的一个属性
+import store from './store/store'
 
 new Vue({
   router,
+  store,
   render: function (h) { return h(App) },
 }).$mount('#app')
