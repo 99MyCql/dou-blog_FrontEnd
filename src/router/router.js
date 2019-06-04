@@ -69,7 +69,7 @@ const router = new VueRouter ({
 if (window.localStorage.getItem('isLogin')) {
   store.setIsLoginAction(window.localStorage.getItem('isLogin'));
   store.setUserNameAction(window.localStorage.getItem('userName'));
-  store.setRoleAction(window.localStorage.getItem('role'));
+  // 不用储存用户身份，因为在router.beforeEach()中，会判断：若未确定身份，则获取身份
 }
 
 // 设置路由跳转前的验证

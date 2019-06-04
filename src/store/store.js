@@ -21,7 +21,6 @@ var store = {
   setRoleAction (role) {
     if (this.debug) console.log('setRoleAction triggered with', role);
     this.state.user.role = role;
-    localStorage.role = role;
   },
   clearStateAction () {
     if (this.debug) console.log('clearStateAction triggered');

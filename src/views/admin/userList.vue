@@ -61,7 +61,7 @@
         label="手机号"
         width="150">
         <template slot-scope="scope">
-          <el-tag size="medium">{{ scope.row.phone }}</el-tag>
+          {{ scope.row.phone }}
         </template>
       </el-table-column>
       

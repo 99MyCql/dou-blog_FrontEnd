@@ -94,7 +94,7 @@ export default {
             // 提交成功
             else {
               this.$message.success(data.msg);
-              this.$router.push('/admin/userInfo');
+              this.$router.push('/userInfo');
             }
           })
           // 请求响应失败
