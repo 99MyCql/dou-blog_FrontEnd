@@ -3,10 +3,16 @@ var store = {
   debug: true,
   state: {
     user: {
+      userId: 0,
       userName: '',
       isLogin: false,
       role: ''
     }
+  },
+  setUserIdAction (userId) {
+    if (this.debug) console.log('setUserId triggered with', userId);
+    this.state.user.userId = userId;
+    localStorage.userId = userId;
   },
   setUserNameAction (userName) {
     if (this.debug) console.log('setUserNameAction triggered with', userName);

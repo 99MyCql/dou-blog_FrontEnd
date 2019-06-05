@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { Message } from 'element-ui';
 
+// 允许跨域携带cookie
+// axios.defaults.withCredentials = true;
+
 // 添加响应拦截器
 axios.interceptors.response.use(resp => {
   // 对响应数据做点什么

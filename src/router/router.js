@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '@/store/store';
-import { user_getRole } from '@/api/user';
+import { user_findByName } from '@/api/user';
 
 Vue.use(VueRouter); // 使用该插件
 
@@ -69,7 +69,7 @@ const router = new VueRouter ({
 if (window.localStorage.getItem('isLogin')) {
   store.setIsLoginAction(window.localStorage.getItem('isLogin'));
   store.setUserNameAction(window.localStorage.getItem('userName'));
-  // 不用储存用户身份，因为在router.beforeEach()中，会判断：若未确定身份，则获取身份
+  // 不用储存用户身份和用户id，因为在router.beforeEach()中，会判断：若未确定身份，则获取身份和id
 }
 
 // 设置路由跳转前的验证
@@ -83,8 +83,8 @@ router.beforeEach((to, from, next) => {
   // 如果用户已登录
   if (store.state.user.isLogin) {
     // 如果用户还未确定身份
-    if (store.state.userRole == '') {
-      user_getRole(store.state.user.userName)
+    if (store.state.user.role == '') {
+      user_findByName(store.state.user.userName)
       // 请求成功
       .then(resp => {
         let data = resp.data;
@@ -102,9 +102,11 @@ router.beforeEach((to, from, next) => {
         }
         // 获取该用户成功
         else {
-          let userRole = JSON.parse(data.data);
-          store.setRoleAction(userRole);
-          if (userRole == 'admin') {
+          let user = JSON.parse(data.data);
+          console.log(user);
+          store.setRoleAction(user.role);
+          store.setUserIdAction(user.id);
+          if (user.role == 'admin') {
             console.log('the user is admin');
             router.addRoutes(adminRoutes); // 动态添加admin可访问路由表
             console.log('addrouters', adminRoutes);

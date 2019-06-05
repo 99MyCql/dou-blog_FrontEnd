@@ -1,8 +1,5 @@
 import axios from 'axios'
 
-// 允许跨域携带cookie
-// axios.defaults.withCredentials = true;
-
 export const article_listAll = (page, size) => {
   return axios.request({
     method: 'get',

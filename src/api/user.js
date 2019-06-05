@@ -1,8 +1,5 @@
 import axios from 'axios'
 
-// 允许跨域携带cookie
-// axios.defaults.withCredentials = true;
-
 export const user_login = (name, password) => {
   return axios.request({
     method: 'get',
@@ -56,6 +53,16 @@ export const user_findByName = (name) => {
   })
 }
 
+export const user_findById = (id) => {
+  return axios.request({
+    method: 'get',
+    url: '/api/user/findById',
+    params: {
+      id
+    }
+  })
+}
+
 export const user_update = (user) => {
   return axios.request({
     method: 'post',
@@ -70,15 +77,5 @@ export const user_update = (user) => {
       // phone: string,
       // qq: string,
       // role: string
-  })
-}
-
-export const user_getRole = (name) => {
-  return axios.request({
-    method: 'get',
-    url: '/api/user/getRole',
-    params: {
-      name
-    }
   })
 }
