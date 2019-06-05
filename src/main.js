@@ -16,7 +16,7 @@ Vue.use(Highlight);
 import router from './router/router';
 
 // 导入 store 作为全局Vue对象的一个属性
-import store from './store/store'
+import store from './store/store';
 
 new Vue({
   router,

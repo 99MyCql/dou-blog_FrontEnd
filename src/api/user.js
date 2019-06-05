@@ -72,3 +72,13 @@ export const user_update = (user) => {
       // role: string
   })
 }
+
+export const user_getRole = (name) => {
+  return axios.request({
+    method: 'get',
+    url: '/api/user/getRole',
+    params: {
+      name
+    }
+  })
+}

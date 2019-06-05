@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '@/store/store';
-import { user_findByName } from '@/api/user';
+import { user_getRole } from '@/api/user';
 
 Vue.use(VueRouter); // 使用该插件
 
@@ -83,8 +83,8 @@ router.beforeEach((to, from, next) => {
   // 如果用户已登录
   if (store.state.user.isLogin) {
     // 如果用户还未确定身份
-    if (store.state.user.role == '') {
-      user_findByName(store.state.user.userName)
+    if (store.state.userRole == '') {
+      user_getRole(store.state.user.userName)
       // 请求成功
       .then(resp => {
         let data = resp.data;
@@ -102,10 +102,9 @@ router.beforeEach((to, from, next) => {
         }
         // 获取该用户成功
         else {
-          let user = JSON.parse(data.data);
-          console.log(user);
-          store.setRoleAction(user.role);
-          if (user.role == 'admin') {
+          let userRole = JSON.parse(data.data);
+          store.setRoleAction(userRole);
+          if (userRole == 'admin') {
             console.log('the user is admin');
             router.addRoutes(adminRoutes); // 动态添加admin可访问路由表
             console.log('addrouters', adminRoutes);

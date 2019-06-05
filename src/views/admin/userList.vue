@@ -58,7 +58,7 @@
       </el-table-column>
 
       <el-table-column
-        label="手机号"
+        label="电话"
         width="150">
         <template slot-scope="scope">
           {{ scope.row.phone }}
@@ -67,10 +67,6 @@
       
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button
-            size="small"
-            icon="el-icon-edit"
-            @click="editUser(scope.row)">编辑</el-button>
           <el-button
             size="small"
             type="danger"
@@ -117,11 +113,6 @@ export default {
     // 路由处理
     handleRouter(router) {
       this.$router.push(router);
-    },
-    // 编辑用户信息
-    editUser(user) {
-      console.log(user);
-      // this.$router.push({ path: '/admin', query: { articleTitle: user.articleTitle }})
     },
     // 删除用户
     deleteUser(user) {

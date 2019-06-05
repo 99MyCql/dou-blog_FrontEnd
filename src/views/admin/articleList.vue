@@ -71,6 +71,12 @@
         <template slot-scope="scope">
           <el-button
             size="small"
+            icon="el-icon-view"
+            @click="viewArticle(scope.row)">查看</el-button>
+          <el-button
+          <el-button
+            size="small"
+            type="primary"
             icon="el-icon-edit"
             @click="editArticle(scope.row)">编辑</el-button>
           <el-button
@@ -120,10 +126,13 @@ export default {
     handleRouter(router) {
       this.$router.push(router);
     },
+    viewArticle(article) {
+      this.$router.push({ path: '/article', query: { articleTitle: article.articleTitle }});
+    },
     // 编辑文章
     editArticle(article) {
       console.log(article);
-      this.$router.push({ path: '/admin/articleEdit', query: { articleTitle: article.articleTitle }})
+      this.$router.push({ path: '/admin/articleEdit', query: { articleTitle: article.articleTitle }});
     },
     // 删除文章
     deleteArticle(article) {
