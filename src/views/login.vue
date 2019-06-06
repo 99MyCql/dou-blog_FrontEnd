@@ -148,7 +148,7 @@ export default {
   .login-wrapper {
     border: 1px solid #000;
     border-radius: 10px;
-    margin: 150px auto 0 auto;
+    margin: 100px auto 0 auto;
     padding: 30px 30px;
     width: 230px;
     height: 300px;

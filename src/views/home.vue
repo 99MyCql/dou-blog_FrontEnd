@@ -88,7 +88,7 @@ export default {
 </script>
 
 <style>
-@media (min-width: 980px) {
+@media (min-width: 900px) {
   .home-main {
     width: 1000px;
     height: 100%;
@@ -112,7 +112,7 @@ export default {
   }
 }
 
-@media (max-width: 980px) {
+@media (max-width: 900px) {
   .home-main {
     height: 100%;
   }

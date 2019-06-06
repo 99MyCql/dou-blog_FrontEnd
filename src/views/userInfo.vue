@@ -105,13 +105,13 @@ export default {
               type: 'error',
               message: '出现了一个网络请求错误'
             })
-          });
+          })
         }
         // 表单验证未通过
         else {
           this.$message.error('验证错误');
         }
-      });
+      })
     }
   },
   created() {
@@ -131,7 +131,7 @@ export default {
       }
       // 找寻成功
       else {
-        this.user = JSON.parse(data.msg);
+        this.user = JSON.parse(data.data);
       }
     })
     // 请求响应异常

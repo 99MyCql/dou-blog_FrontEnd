@@ -20,7 +20,7 @@
 
       <el-table-column
         label="文章标题"
-        width="180">
+        width="150">
         <template slot-scope="scope">
           {{ scope.row.articleTitle }}
         </template>
@@ -61,7 +61,7 @@
 
       <el-table-column
         label="分类"
-        width="150">
+        width="100">
         <template slot-scope="scope">
           <el-tag size="medium">{{ scope.row.articleCategories }}</el-tag>
         </template>

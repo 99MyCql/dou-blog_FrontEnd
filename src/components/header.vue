@@ -16,7 +16,7 @@
     <div style="z-index:999">
       <el-dropdown trigger="click">
         <a class="avatar">
-          <img src="https://avatars2.githubusercontent.com/u/41814469?s=40&v=4" style="display:inline-block">
+          <img src="../assets/avatar.png" style="display:inline-block">
           <i class="el-icon-caret-bottom el-icon--right" style="color:white"></i>
         </a>
         <el-dropdown-menu slot="dropdown">

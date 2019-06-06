@@ -111,7 +111,7 @@ router.beforeEach((to, from, next) => {
             router.addRoutes(adminRoutes); // 动态添加admin可访问路由表
             console.log('addrouters', adminRoutes);
           }
-          next('/home');
+          next();
         }
       })
       // 请求异常
