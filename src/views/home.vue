@@ -35,7 +35,8 @@
             <p style="color: #999;">{{ article.articleTabloid }}</p>
 
             <div style="color: #999;">
-              <i class="el-icon-view"></i><span style="margin-left:5px">{{ article.readers }}</span>
+              <i class="el-icon-view"></i><span style="margin-left:5px;margin-right:10px">{{ article.readers }}</span>
+              <i class="el-icon-chat-square"></i><span style="margin-left:5px">{{ article.comments }}</span>
             </div>
           </el-card>
         </el-timeline-item>

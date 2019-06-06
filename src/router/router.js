@@ -53,6 +53,9 @@ const adminRoutes = [
         name: 'articleEdit',
         component: () => import('@/views/admin/articleEdit')
       }, {
+        path: 'commentList',
+        component: () => import('@/views/admin/commentList')
+      }, {
         path: 'userList',
         component: () => import('@/views/admin/userList')
       }

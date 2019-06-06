@@ -1,10 +1,9 @@
 <template>
   <div>
-    <page-title title="文章列表"/>
-    <el-button type="primary" icon="el-icon-plus" style="margin-bottom:10px" @click="handleRouter('/admin/articleEdit')">创建文章</el-button>
+    <page-title title="评论列表"/>
     <el-table
       v-loading="tableLoading"
-      :data="articleList"
+      :data="commentList"
       element-loading-text="Loading"
       fit
       border
@@ -20,58 +19,37 @@
 
       <el-table-column
         label="文章标题"
-        width="150">
+        width="180">
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.articleTitle }}</el-tag>
+          <el-tag size="medium">
+            <router-link :to="{ path: '/article', query: { articleTitle: scope.row.articleTitle }}">
+              {{ scope.row.articleTitle }}
+            </router-link>
+          </el-tag>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="文章摘要">
+        label="评论者用户名"
+        width="180">
         <template slot-scope="scope">
-          {{ scope.row.articleTabloid }}
+          <el-tag size="medium">{{ scope.row.commenterName }}</el-tag>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="发布日期"
+        label="评论时间"
         width="180">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.publishDate }}</span>
+          <span style="margin-left: 10px">{{ scope.row.commentDate }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="更新日期"
-        width="180">
+        label="评论内容">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.updateDate }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        label="阅读量"
-        width="80">
-        <template slot-scope="scope">
-          {{ scope.row.readers }}
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        label="评论量"
-        width="80">
-        <template slot-scope="scope">
-          {{ scope.row.comments }}
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        label="分类"
-        width="120">
-        <template slot-scope="scope">
-          <el-tag type="success">{{ scope.row.articleCategories }}</el-tag>
+          {{ scope.row.commentContent }}
         </template>
       </el-table-column>
       
@@ -79,19 +57,9 @@
         <template slot-scope="scope">
           <el-button
             size="small"
-            icon="el-icon-view"
-            @click="viewArticle(scope.row)">查看</el-button>
-          <el-button
-          <el-button
-            size="small"
-            type="primary"
-            icon="el-icon-edit"
-            @click="editArticle(scope.row)">编辑</el-button>
-          <el-button
-            size="small"
             type="danger"
             icon="el-icon-delete"
-            @click="deleteArticle(scope.row)">删除</el-button>
+            @click="deleteComment(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -99,7 +67,9 @@
 </template>
 
 <script>
-import { article_listAll, article_delete } from '@/api/article';
+import { comment_listAll, comment_delete } from '@/api/comment';
+import { article_findById } from '@/api/article';
+import { user_findById } from '@/api/user';
 import pageTitle from '@/components/pageTitle';
 
 export default {
@@ -109,16 +79,20 @@ export default {
   data() {
     return {
       tableLoading: false,
-      articleList: []
+      commentList: [],
+      articleList: [],
+      userList: []
     }
   },
   methods: {
-    // 获取文章列表
-    getArticleList() {
+    // 获取用户列表
+    getCommentList() {
       this.tableLoading = true;
-      article_listAll(1, 50).then((resp) => {
-        this.articleList = resp.data.list;
-        console.log(this.articleList);
+      comment_listAll(1, 50)
+      .then((resp) => {
+        console.log(resp.data);
+        this.commentList = resp.data.list;
+        console.log('commentList ---> ', this.commentList);
         this.tableLoading = false;
       }).catch((error) => {
         this.$message({
@@ -130,33 +104,21 @@ export default {
         this.tableLoading = false;
       })
     },
-    // 路由处理
-    handleRouter(router) {
-      this.$router.push(router);
-    },
-    viewArticle(article) {
-      this.$router.push({ path: '/article', query: { articleTitle: article.articleTitle }});
-    },
-    // 编辑文章
-    editArticle(article) {
-      console.log(article);
-      this.$router.push({ path: '/admin/articleEdit', query: { articleTitle: article.articleTitle }});
-    },
-    // 删除文章
-    deleteArticle(article) {
-      console.log(article);
+    // 删除用户
+    deleteComment(comment) {
+      console.log(comment);
       // 弹框询问
-      this.$confirm('确定要删除该文章吗?', '提示', {
+      this.$confirm('确定要删除这条评论吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
       // 若确定，则调用api进行删除
       .then(() => {
-        article_delete(article.id)
+        comment_delete(comment.id)
         // 请求响应正常
         .then(resp => {
-          let data = resp.data;
+          var data = resp.data;
           console.log(data);
           // 删除失败
           if (data.code == 0) {
@@ -172,7 +134,7 @@ export default {
               message: data.msg,
               type: 'success'
             });
-            this.getArticleList();
+            this.getCommentList();
           }
         })
         // 请求响应异常
@@ -188,7 +150,7 @@ export default {
     }
   },
   created() {
-    this.getArticleList();
+    this.getCommentList();
   },
 }
 </script>

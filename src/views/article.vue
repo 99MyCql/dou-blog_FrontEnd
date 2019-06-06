@@ -30,9 +30,7 @@
 
         <div style="margin:0 20px;">
           <comment-area
-            :articleId="article.id"
-            :commentList="commentList"
-            :getCommentList="getCommentList"/>
+            :articleId="article.id"/>
         </div>
         <!-- comment area -->
       </div>
@@ -48,7 +46,6 @@ import mdView from '@/components/mdView';
 import commentArea from '@/components/commentArea';
 import marked from 'marked';
 import { article_findByArticleTitle } from '@/api/article';
-import { comment_listByArticleId } from '@/api/comment';
 import { user_findById } from '@/api/user';
 
 export default {
@@ -65,8 +62,7 @@ export default {
         articleTitle: 'default',
         articleContent: '啥也没有'
       },
-      loading: false,
-      commentList: []
+      loading: false
     }
   },
   methods: {
@@ -76,44 +72,6 @@ export default {
       if (this.article.articleTitle == undefined) article = this.defaultArtical;
       let md = marked(article.articleContent, { sanitize: true });
       return md;
-    },
-    // 获取文章的评论列表
-    // 为什么不将该函数写在commentArea组件中呢？
-    // 因为，需要先获取articleId才能获取评论列表，而articleId是在当前组件的created钩子函数中，
-    // 通过异步请求获取的。由于子组件创建在父组件之前，在commentArea组件中调用getCommentList函数时，
-    // 可能articleId还未获取到，调用getCommentList函数就会报错。
-    getCommentList(articleId) {
-      this.loading = true;
-      console.log('=====getCommentList()======');
-      comment_listByArticleId(articleId)
-      .then(resp => {
-        let data = resp.data;
-        console.log(data);
-        // 获取评论列表失败
-        if (data.code == 0) {
-          this.$message({
-            showClose: true,
-            message: data.msg,
-            type: 'error'
-          });
-        }
-        // 获取评论列表成功
-        else {
-          this.commentList = JSON.parse(data.data);
-          console.log('commentList --->', this.commentList);
-          this.commentsCount = this.commentList.length;
-        }
-        this.loading = false;
-      })
-      .catch(error => {
-        this.$message({
-          showClose: true,
-          type: 'error',
-          message: '出现了一个网络请求错误'
-        });
-        console.log(error);
-        this.loading = false;
-      })
     },
     // 通过文章标题获取文章
     getArticle(articleTitle) {
@@ -135,7 +93,6 @@ export default {
         else {
           this.article = JSON.parse(data.data);
           console.log('article --->', this.article);
-          this.getCommentList(this.article.id);
         }
         this.loading = false;
       })

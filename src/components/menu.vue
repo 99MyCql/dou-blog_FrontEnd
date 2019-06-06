@@ -20,6 +20,11 @@
       </el-menu-item-group>
     </el-submenu>
 
+    <el-menu-item index="/admin/commentList">
+      <i class="el-icon-s-comment"></i>
+      <span slot="title">评论列表</span>
+    </el-menu-item>
+
     <el-menu-item index="/admin/userList">
       <i class="el-icon-user-solid"></i>
       <span slot="title">用户列表</span>

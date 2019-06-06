@@ -56,12 +56,6 @@ export default {
   props: {
     articleId: {
       type: Number
-    },
-    commentList: {
-      type: Array
-    },
-    getCommentList: {
-      type: Function
     }
   },
   data() {
@@ -72,12 +66,14 @@ export default {
         commenterId: store.state.user.userId,
         commentContent: ''
       },
-      commentWrite_loading: false
+      commentWrite_loading: false,
+      commentList_loading: false,
+      commentList: []
     }
   },
   methods: {
     // 发表评论
-    submitComment () {
+    submitComment() {
       this.commentWrite_loading = true;
       this.comment.articleId = this.articleId;
       console.log(this.comment);
@@ -142,6 +138,44 @@ export default {
       // Calculate color
       var index = Math.abs(hash % COLORS.length);
       return COLORS[index];
+    },
+    getCommentList(articleId) {
+      this.commentList_loading = true;
+      console.log('=====getCommentList()======');
+      comment_listByArticleId(articleId)
+      .then(resp => {
+        let data = resp.data;
+        console.log(data);
+        // 获取评论列表失败
+        if (data.code == 0) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: 'error'
+          });
+        }
+        // 获取评论列表成功
+        else {
+          this.commentList = JSON.parse(data.data);
+          console.log('commentList --->', this.commentList);
+          this.commentsCount = this.commentList.length;
+        }
+        this.commentList_loading = false;
+      })
+      .catch(error => {
+        this.$message({
+          showClose: true,
+          type: 'error',
+          message: '出现了一个网络请求错误'
+        });
+        console.log(error);
+        this.commentList_loading = false;
+      })
+    },
+  },
+  watch: {
+    articleId(articleId) {
+      this.getCommentList(articleId);
     }
   }
 }

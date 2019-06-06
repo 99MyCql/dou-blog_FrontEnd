@@ -21,7 +21,7 @@
         label="用户名"
         width="150">
         <template slot-scope="scope">
-          {{ scope.row.name }}
+          <el-tag>{{ scope.row.name }}</el-tag>
         </template>
       </el-table-column>
 
