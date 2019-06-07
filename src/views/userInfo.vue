@@ -36,7 +36,7 @@
         </el-form-item>
 
         <el-form-item label="个性签名">
-          <el-input v-model="user.personalBrief" type="textarea" />
+          <el-input v-model="user.personalBrief" type="textarea" :rows="3"/>
         </el-form-item>
 
         <el-form-item>

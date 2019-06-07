@@ -131,7 +131,7 @@ export default {
           // 删除成功
           else {
             this.$message({
-              message: data.msg,
+              message: '删除成功',
               type: 'success'
             });
             this.getCommentList();
