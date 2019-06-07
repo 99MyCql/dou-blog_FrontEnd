@@ -30,7 +30,7 @@
             <a @click="handleRouter('/userInfo')"><i class="el-icon-setting"></i>个人信息</a>
           </el-dropdown-item>
           <el-dropdown-item>
-            <a><i class="el-icon-question"></i>反馈</a>
+            <a href="https://github.com/99MyCql/myblog_BackEnd/issues" target="_blank"><i class="el-icon-question"></i>反馈</a>
           </el-dropdown-item>
           <el-dropdown-item>
             <a @click="logout()"><i class="el-icon-switch-button"></i>退出登录</a>
