@@ -2,7 +2,7 @@
   <div class="container">
     <div class="login-wrapper">
       <div class="login-title">
-        <b>Lgoin Form</b>
+        <b>Login Form</b>
       </div>
       <!-- login title -->
 

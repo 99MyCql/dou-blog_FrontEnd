@@ -78,7 +78,7 @@ export default {
       this.comment.articleId = this.articleId;
       console.log(this.comment);
       // 如果评论内容为空
-      if (this.comment == '') {
+      if (this.comment.commentContent === '') {
         this.$message({
           showClose: true,
           message: '评论内容不能为空',
