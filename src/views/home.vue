@@ -5,22 +5,25 @@
     </el-header>
 
     <el-main class="home-main">
-      <el-carousel :interval="2000" type="card" class="carousel">
+      <el-carousel :interval="6000" :type="getType()" class="carousel">
         <el-carousel-item>
-          <el-image src="https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg"></el-image>
+          <div class="img-container"><img src="../assets/fangao/星空.jpg"></img></div>
         </el-carousel-item>
         <el-carousel-item>
-          <el-image src="https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg"></el-image>
+          <div class="img-container"><img src="../assets/fangao/稻田中的乌鸦.jpg"></img></div>
         </el-carousel-item>
         <el-carousel-item>
-          <el-image src="https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg"></el-image>
+          <div class="img-container"><img src="../assets/fangao/罗纳河上的星空.jpg"></img></div>
         </el-carousel-item>
         <el-carousel-item>
-          <el-image src="https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg"></el-image>
+          <div class="img-container"><img src="../assets/fangao/黄房子.jpeg"></img></div>
+        </el-carousel-item>
+        <el-carousel-item>
+          <div class="img-container"><img src="../assets/fangao/梵高的卧室.jpeg"></img></div>
         </el-carousel-item>
       </el-carousel>
 
-      <el-timeline v-loading="loading">
+      <el-timeline v-loading="loading" class="card-list">
         <el-timeline-item v-for="article in articleList" :timestamp="article.publishDate" placement="top">
           <el-card shadow="hover">
             <div class="card-header">
@@ -77,9 +80,15 @@ export default {
         this.loading = false;
       })
     },
+    // 查看文章
     viewArticel(article) {
       console.log(article);
       this.$router.push({ path: '/article', query: { articleTitle: article.articleTitle }})
+    },
+    // 根据屏幕大小返回走马灯样式
+    getType() {
+      console.log(window.screen.width);
+      return window.screen.width > 900 ? 'card' : '';
     }
   },
   created() {
@@ -89,6 +98,26 @@ export default {
 </script>
 
 <style>
+.img-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100%;
+  width:100%;
+}
+
+.img-container img {
+  height: auto;
+  width: auto;
+  max-width:100%;
+  max-height:100%;
+}
+
+.card-list {
+  padding: 0;
+  margin-top: 10px;
+}
+
 @media (min-width: 900px) {
   .home-main {
     width: 1000px;
@@ -119,7 +148,7 @@ export default {
   }
 
   .carousel {
-    height: 160px;
+    height: 300px;
   }
 
   .card-header {
