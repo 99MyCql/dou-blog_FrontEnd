@@ -7,7 +7,7 @@
     <el-main class="home-main">
       <el-carousel :interval="6000" :type="getType()" class="carousel">
         <el-carousel-item>
-          <div class="img-container"><img src="../assets/fangao/星空.jpg"></img></div>
+          <div class="img-container"><img src="../assets/fangao/星空_small.jpg"></img></div>
         </el-carousel-item>
         <el-carousel-item>
           <div class="img-container"><img src="../assets/fangao/稻田中的乌鸦.jpg"></img></div>
