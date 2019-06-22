@@ -10,15 +10,21 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- highlight -->
     <link href="highlight/atom-one-dark.css" rel="stylesheet">
-    <script src="highlight/highlight.js"></script>
-    <!-- axios -->
-    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
   </head>
   <body style="margin: 0">
     <noscript>
       <strong>We're sorry but my blog doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+    
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+
+    <!-- vue 需要比 element-ui 先导入 -->
+    <script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+    <!-- element-ui -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- highlight -->
+    <script src="highlight/highlight.js"></script>
+    <!-- axios -->
+    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
   </body>
 </html>
