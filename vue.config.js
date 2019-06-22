@@ -1,4 +1,16 @@
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
+  // webpack的打包分析工具
+  configureWebpack: {
+    plugins: [
+      new BundleAnalyzerPlugin()
+    ],
+    externals: {
+      'highlight': 'hljs',
+      'axios': 'axios'
+    }
+  },
   devServer: {
     // vue项目启动时的ip地址和端口
     host: 'localhost',
@@ -16,17 +28,5 @@ module.exports = {
         // }
       }
     }
-  },
-  chainWebpack: config => {
-    // GraphQL Loader
-    config.module
-      .rule('md')
-      .test(/\.md$/)
-      .use('html-loader')
-        .loader('html-loader')
-        .end()
-      .use('markdown-loader')
-        .loader('markdown-loader')
-        .end()
   }
 }

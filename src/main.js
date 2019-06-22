@@ -4,9 +4,9 @@ import App from './App.vue'
 Vue.config.productionTip = false
 
 // element-ui 引入
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
+import ELEMENT from 'element-ui';
+// 通过标签导入：import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ELEMENT);
 
 // highlight.js代码高亮插件
 import Highlight from './utils/highlight'; // from 路径是highlight.js的路径，纯属自定义
