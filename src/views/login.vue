@@ -31,8 +31,11 @@
           <el-button style="margin-left:0" @click="register" class="login-button" round>注册</el-button>
         </el-form-item>
         <!-- button -->
-
       </el-form>
+    </div>
+
+    <div class="footer">
+      <a href="http://www.miit.gov.cn/" target="_blank">备案号</a>
     </div>
   </div>
 </template>
@@ -121,11 +124,19 @@ export default {
   width: 100%;
 }
 
+.footer {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  font-size: 10px;
+  text-align: center;
+}
+
 @media (min-width: 980px) {
   .login-wrapper {
     border: 1px solid #000;
     border-radius: 10px;
-    margin: 180px auto 0 auto;
+    margin: 160px auto 0 auto;
     padding: 30px 80px;
     width: 350px;
     height: 300px;
