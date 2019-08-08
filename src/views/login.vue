@@ -35,7 +35,7 @@
     </div>
 
     <div class="footer">
-      <a href="http://www.miit.gov.cn/" target="_blank">备案号</a>
+      <a href="http://www.beian.miit.gov.cn" target="_blank">备案号</a>
     </div>
   </div>
 </template>
