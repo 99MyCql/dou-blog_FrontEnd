@@ -1,4 +1,4 @@
-# myblog_FontEnd
+# myblog_frontend
 
 ## Project setup
 
