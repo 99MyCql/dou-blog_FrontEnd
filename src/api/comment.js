@@ -39,12 +39,14 @@ export const comment_findById = (id) => {
   })
 }
 
-export const comment_listByArticleId = (articleId) => {
+export const comment_listByArticleId = (articleId, page, size) => {
   return axios.request({
     method: 'get',
     url: '/api/comment/listByArticleId',
     params: {
-      articleId
+      articleId,
+      page,
+      size
     }
   })
 }

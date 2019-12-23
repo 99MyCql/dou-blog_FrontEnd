@@ -8,7 +8,7 @@
       <div class="article-wrapper">
         <page-title :title="article.articleTitle"/>
 
-        <div>
+        <div id="article">
           <div class="article-header">
             <h1 class="article-title">{{ article.articleTitle }}</h1>
             <div class="article-meta">
@@ -113,7 +113,7 @@ export default {
   display: block;
   padding-right: 20px;
   margin-bottom: 80px;
-  font-size: 3px;
+  font-size: 16px;
   font-family: 'Microsoft Yahei';
   color: grey;
   text-align: right;

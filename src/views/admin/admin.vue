@@ -1,25 +1,27 @@
 <template>
   <el-container class="admin-container">
-    <el-header style="padding:0;">
+    <el-header style="height: 60px;padding: 0px;position: fixed;width: 100%;z-index: 999;">
       <head-er></head-er>
     </el-header>
+    <!-- 头部导航栏 -->
 
-    <el-container style="height:100%">
-      <aside-menu 
+    <aside-menu
+      style="background-color: rgb(84, 92, 100);height: 100%;position: fixed;z-index: 99;margin-top: 60px;"
       :handleRouter='handleRouter'
       :isCollapse='isFold'>
-      </aside-menu>
+    </aside-menu>
+    <!-- 侧边栏 -->
 
-      <el-main style="height:100%">
-        <div class="menu-fold" @click="isFold = !isFold">
-          <i :class="[ isFold ? 'el-icon-s-unfold' : 'el-icon-s-fold' ]" style="font-size:30px;"></i>
-        </div>
-        <transition>
-          <router-view/>
-        </transition>
-      </el-main>
+    <el-main style="height: 100%;margin: 60px 0 0 200px;">
+      <!-- <div class="menu-fold" @click="isFold = !isFold">
+        <i :class="[ isFold ? 'el-icon-s-unfold' : 'el-icon-s-fold' ]" style="font-size:30px;"></i>
+      </div> -->
+      <transition>
+        <router-view/>
+      </transition>
+    </el-main>
+    <!-- 主页面 -->
 
-    </el-container>
   </el-container>
 </template>
 

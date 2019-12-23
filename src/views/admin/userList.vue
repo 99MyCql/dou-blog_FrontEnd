@@ -1,6 +1,19 @@
 <template>
   <div>
     <page-title title="用户列表"/>
+
+    <el-pagination
+      style="margin-bottom:10px;"
+      background
+      layout="prev, pager, next"
+      :total="100"
+      :page-size="userList_size"
+      @current-change="showCurPage"
+      @prev-click="showPrePage"
+      @next-click="showNextPage">
+    </el-pagination>
+    <!-- 分页器 -->
+
     <el-table
       v-loading="tableLoading"
       :data="userList"
@@ -10,11 +23,8 @@
       highlight-current-row>
 
       <el-table-column
-        label="#"
+        type="selection"
         width="50">
-        <template slot-scope="scope">
-          {{ scope.$index }}
-        </template>
       </el-table-column>
 
       <el-table-column
@@ -89,17 +99,35 @@ export default {
   data() {
     return {
       tableLoading: false,
-      userList: []
+      userList: [],     // 用户列表
+      userList_page: 1, // 用户列表的页号
+      userList_size: 10 // 用户列表每页的用户数量
     }
   },
   methods: {
+    // 展示当前页的用户列表
+    showCurPage(curPage) {
+      this.userList_page = curPage;
+      console.log(this.userList_page);
+      this.getUserList();
+    },
+    // 展示上一页的用户列表
+    showPrePage() {
+      this.userList_page--;
+      this.getUserList();
+    },
+    // 展示下一页的用户列表
+    showNextPage() {
+      this.userList_page++;
+      this.getUserList();
+    },
     // 获取用户列表
     getUserList() {
-      this.tableLoading = true;
-      user_listAll(1, 50).then((resp) => {
+      this.tableLoading = true; // 设置列表加载状态为 true
+      user_listAll(this.userList_page, this.userList_size).then((resp) => {
         console.log(resp);
         this.userList = JSON.parse(resp.data.data); // JSON解析后端返回数据(resp.data)中的data字段
-        console.log(this.userList);
+        console.log('userList--->', this.userList);
         this.tableLoading = false;
       }).catch((error) => {
         console.log(error);

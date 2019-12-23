@@ -1,6 +1,19 @@
 <template>
   <div>
     <page-title title="评论列表"/>
+
+    <el-pagination
+      style="margin-bottom:10px;"
+      background
+      layout="prev, pager, next"
+      :total="100"
+      :page-size="commentList_size"
+      @current-change="showCurPage"
+      @prev-click="showPrePage"
+      @next-click="showNextPage">
+    </el-pagination>
+    <!-- 分页器 -->
+
     <el-table
       v-loading="tableLoading"
       :data="commentList"
@@ -10,11 +23,8 @@
       highlight-current-row>
 
       <el-table-column
-        label="#"
+        type="selection"
         width="50">
-        <template slot-scope="scope">
-          {{ scope.$index }}
-        </template>
       </el-table-column>
 
       <el-table-column
@@ -79,20 +89,38 @@ export default {
   data() {
     return {
       tableLoading: false,
-      commentList: [],
+      commentList: [],      // 评论列表
+      commentList_page: 1,  // 评论列表的页号
+      commentList_size: 10, // 评论列表每页的用户数量
       articleList: [],
       userList: []
     }
   },
   methods: {
+    // 展示当前页的用户列表
+    showCurPage(curPage) {
+      this.commentList_page = curPage;
+      console.log(this.commentList_page);
+      this.getCommentList();
+    },
+    // 展示上一页的用户列表
+    showPrePage() {
+      this.commentList_page--;
+      this.getCommentList();
+    },
+    // 展示下一页的用户列表
+    showNextPage() {
+      this.commentList_page++;
+      this.getCommentList();
+    },
     // 获取用户列表
     getCommentList() {
       this.tableLoading = true;
-      comment_listAll(1, 50)
+      comment_listAll(this.commentList_page, this.commentList_size)
       .then((resp) => {
         console.log(resp);
         this.commentList = JSON.parse(resp.data.data); // JSON解析后端返回数据(resp.data)中的data字段
-        console.log(this.commentList);
+        console.log('commentList--->', this.commentList);
         this.tableLoading = false;
       }).catch((error) => {
         console.log(error);

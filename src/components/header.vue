@@ -75,7 +75,6 @@ export default {
   justify-content: space-between;
   height: 100%;
   overflow: hidden;
-  position: relative;
   background: #304156;
   box-shadow: 0 0 10px 10px rgba(0,21,41,.08);
   z-index: 99;

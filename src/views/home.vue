@@ -1,10 +1,10 @@
 <template>
   <el-container style="background-color: #fdf6ec8f;">
-    <el-header style="padding:0;">
+    <el-header style="height: 60px;padding: 0px;position: fixed;width: 100%;z-index: 999;">
       <head-er></head-er>
     </el-header>
 
-    <el-main class="home-main">
+    <el-main class="home-main" style="margin-top: 60px;padding: 20px 20%;width: 100%;">
       <el-carousel :interval="6000" :type="getType()" class="carousel">
         <el-carousel-item>
           <div class="img-container"><img src="../assets/fangao/星空_small.jpg"></img></div>
@@ -115,12 +115,6 @@ export default {
 }
 
 @media (min-width: 900px) {
-  .home-main {
-    width: 1000px;
-    height: 100%;
-    margin: 20px auto;
-  }
-
   .carousel {
     height: 400px;
   }
@@ -139,10 +133,6 @@ export default {
 }
 
 @media (max-width: 900px) {
-  .home-main {
-    height: 100%;
-  }
-
   .carousel {
     height: 300px;
   }

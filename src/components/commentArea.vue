@@ -26,7 +26,7 @@
 
     <div>
       <div class="comments-title">
-        <span style="font-size: 17px;font-weight: 700;">{{ commentList.length }}条评论</span>
+        <span style="font-size: 20px;font-weight: 700;">全部评论</span>
       </div>
 
       <div class="comment-one" v-for="item in commentList">
@@ -63,18 +63,19 @@ export default {
       username: store.state.user.userName,
       comment: {
         articleId: 0,
-        commenterId: store.state.user.userId,
         commentContent: ''
       },
       commentWrite_loading: false,
       commentList_loading: false,
-      commentList: []
+      commentList: [],      // 评论列表
+      commentList_page: 0,  // 评论列表的页号
+      commentList_size: 10, // 评论列表每页的评论数
     }
   },
   methods: {
     // 发表评论
     submitComment() {
-      this.commentWrite_loading = true;
+      this.commentWrite_loading = true; // 设置评论区为加载状态
       this.comment.articleId = this.articleId;
       console.log(this.comment);
       // 如果评论内容为空
@@ -89,7 +90,7 @@ export default {
           console.log(resp);
           this.comment.commentContent = '';
           this.commentWrite_loading = false;
-          this.getCommentList(this.articleId);
+          // this.getCommentList(articleId);
         })
         .catch(error => {
           console.log(error);
@@ -113,16 +114,20 @@ export default {
       var index = Math.abs(hash % COLORS.length);
       return COLORS[index];
     },
+    // 根据 page, size 懒加载评论列表
     getCommentList(articleId) {
-      this.commentList_loading = true;
       console.log('=====getCommentList()======');
-      comment_listByArticleId(articleId)
+
+      this.commentList_page++;          // 获取下一页的评论列表
+      this.commentList_loading = true;  // 设置评论列表为加载状态
+
+      // 根据 page, size 值获取评论列表
+      comment_listByArticleId(articleId, this.commentList_page, this.commentList_size)
       .then(resp => {
         console.log(resp);
         this.commentList = JSON.parse(resp.data.data);
-        console.log('commentList --->', this.commentList);
-        this.commentsCount = this.commentList.length;
-        this.commentList_loading = false;
+        console.log('commentList--->', this.commentList);
+        this.commentList_loading = false; // 设置评论列表为非加载状态
       })
       .catch(error => {
         console.log(error);
@@ -130,6 +135,7 @@ export default {
       })
     },
   },
+  // 监听变量，一旦变化，即执行相应操作
   watch: {
     articleId(articleId) {
       this.getCommentList(articleId);
