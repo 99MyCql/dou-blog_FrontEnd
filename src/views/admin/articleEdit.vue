@@ -33,7 +33,7 @@
         </div>
         <el-input v-model="article.articleContent"
                   type="textarea"
-                  :autosize="{ minRows: 30, maxRows: 99999 }" 
+                  :autosize="{ minRows: 30, maxRows: 99999 }"
                   resize="none"
                   placeholder="可以使用markdown语法">
         </el-input>
@@ -60,7 +60,7 @@
           <div class="el-upload__text">将<b>.md</b>文件拖到此处，或<em>点击上传</em></div>
           <div class="el-upload__tip" slot="tip">只能上传.md文件</div>
         </el-upload>
-      </el-form-item> -->      
+      </el-form-item> -->
     </el-form>
   </div>
 </template>
@@ -107,28 +107,11 @@ export default {
     getArticle(articleTitle) {
       article_findByArticleTitle(articleTitle)
       .then(resp => {
-        let data = resp.data;
-        console.log(data);
-        // 找寻失败
-        if (data.code == 0) {
-          this.$message({
-            showClose: true,
-            message: data.msg,
-            type: 'error'
-          });
-        }
-        // 找寻成功
-        else {
-          this.article = JSON.parse(data.data);
-        }
+        console.log(resp);
+        this.article = JSON.parse(resp.data.data);
       })
       // 请求响应异常
       .catch(error => {
-        this.$message({
-          showClose: true,
-          type: 'error',
-          message: '出现了一个网络请求错误'
-        });
         console.log(error);
       });
     },
@@ -141,10 +124,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.article.articleContent = '';
-        this.$message({
-          type: 'success',
-          message: '清空成功!'
-        });
+        this.$message.success('清空成功!');
       })
     },
 
@@ -167,30 +147,13 @@ export default {
           article_submit(this.article)
           // 请求响应成功
           .then(resp => {
-            let data = resp.data;
-            console.log(data);
-            // 提交失败
-            if (data.code == 0) {
-              this.$message({
-                showClose: true,
-                type: 'error',
-                message: data.msg
-              });
-            }
-            // 提交成功
-            else {
-              this.$message.success(data.msg);
-              this.$router.push('/admin/articleList');
-            }
+            console.log(resp);
+            this.$message.success(resp.data.msg);
+            this.$router.push('/admin/articleList');
           })
           // 请求响应失败
           .catch(error => {
             console.log(error);
-            this.$message({
-                showClose: true,
-                type: 'error',
-                message: '出现了一个网络请求错误'
-              })
           });
         }
         // 表单验证未通过
@@ -208,10 +171,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$refs[formName].resetFields();
-        this.$message({
-          type: 'success',
-          message: '清空成功!'
-        });
+        $message.success('清空成功!');
       })
     }
   }

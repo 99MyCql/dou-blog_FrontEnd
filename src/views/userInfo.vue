@@ -46,7 +46,7 @@
     </div>
   </el-main>
 </el-container>
-  
+
 </template>
 
 <script>
@@ -79,32 +79,15 @@ export default {
         if (valid) {
           console.log(this.user);
           user_update(this.user)
-          // 请求响应成功
+          // 成功
           .then(resp => {
-            let data = resp.data;
-            console.log(data);
-            // 提交失败
-            if (data.code == 0) {
-              this.$message({
-                showClose: true,
-                type: 'error',
-                message: data.msg
-              });
-            }
-            // 提交成功
-            else {
-              this.$message.success(data.msg);
-              this.$router.push('/userInfo');
-            }
+            console.log(resp);
+            this.$message.success(resp.data.msg);
+            this.$router.push('/userInfo');
           })
-          // 请求响应失败
+          // 异常
           .catch(error => {
             console.log(error);
-            this.$message({
-              showClose: true,
-              type: 'error',
-              message: '出现了一个网络请求错误'
-            })
           })
         }
         // 表单验证未通过
@@ -118,33 +101,16 @@ export default {
     this.loading = true;
     user_findByName(store.state.user.userName)
     .then(resp => {
-      let data = resp.data;
-      console.log(data);
-      // 找寻失败
-      if (data.code == 0) {
-        this.$message({
-          showClose: true,
-          message: data.msg,
-          type: 'error'
-        });
-        this.user.name = 'error';
-      }
-      // 找寻成功
-      else {
-        this.user = JSON.parse(data.data);
-      }
+      console.log(resp);
+      this.user = JSON.parse(resp.data.data);
+      this.loading = false;
     })
-    // 请求响应异常
+    // 异常
     .catch(error => {
-      this.$message({
-        showClose: true,
-        type: 'error',
-        message: '出现了一个网络请求错误'
-      });
       console.log(error);
       user.name = 'error';
+      this.loading = false;
     });
-    this.loading = false;
   }
 }
 </script>

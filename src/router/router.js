@@ -68,64 +68,48 @@ const router = new VueRouter ({
   routes: normalRoutes
 });
 
-// 获取本地缓存，防止刷新后store更新
-if (window.localStorage.getItem('isLogin')) {
-  store.setIsLoginAction(window.localStorage.getItem('isLogin'));
-  store.setUserNameAction(window.localStorage.getItem('userName'));
-  // 不用储存用户身份和用户id，因为在router.beforeEach()中，会判断：若未确定身份，则获取身份和id
-}
-
-// 设置路由跳转前的验证
-// 全局前置守卫
+// 设置路由跳转前的验证，全局前置守卫
 router.beforeEach((to, from, next) => {
+  // 如果是访问登录或注册页面，则直接跳转
   if (to.path == '/login' || to.path == '/register') {
     next();
     return;
   }
 
+  // 从本地缓存中获取用户登录状态，防止刷新页面后store更新
   // 如果用户已登录
-  if (store.state.user.isLogin) {
+  if (localStorage.getItem('isLogin')) {
+    console.log("user have logined");
+    store.setUserNameAction(localStorage.getItem('userName')); // 从本地缓存中获取用户名
+
     // 如果用户还未确定身份
     if (store.state.user.role == '') {
       user_findByName(store.state.user.userName)
-      // 请求成功
+      // 获取用户数据成功
       .then(resp => {
-        let data = resp.data;
-        console.log(data);
-        // 获取该用户失败
-        if (data.code == 0) {
-          this.$message({
-            showClose: true,
-            message: data.msg,
-            type: 'error'
-          });
-          let isLogin = false;
-          store.setIsLoginAction(isLogin);
-          next('/login');
+        let user = JSON.parse(resp.data.data); // 从后端返回数据(resp.data)的 data 字段中获取用户信息，需要先解析
+        console.log(user);
+        store.setRoleAction(user.role);   // 储存用户身份
+
+        // 如果用户身份是管理员
+        if (user.role == 'admin') {
+          console.log('the user is admin');
+          router.addRoutes(adminRoutes); // 动态添加admin可访问路由表
+          console.log('add routers:', adminRoutes);
         }
-        // 获取该用户成功
-        else {
-          let user = JSON.parse(data.data);
-          console.log(user);
-          store.setRoleAction(user.role);
-          store.setUserIdAction(user.id);
-          if (user.role == 'admin') {
-            console.log('the user is admin');
-            router.addRoutes(adminRoutes); // 动态添加admin可访问路由表
-            console.log('addrouters', adminRoutes);
-          }
-          next();
-        }
+
+        next(); // 放行
       })
       // 请求异常
       .catch(error => {
         console.log(error);
-        next('/login');
+        store.setIsLoginAction(false);  // 设置登录状态为 false
+        next('/home');                 // 跳转到登录页面
       })
     }
     // 如果用户已确认过身份
     else {
-      next();
+      next(); // 放行
     }
   }
   // 如果用户未登录，直接跳转到登录界面

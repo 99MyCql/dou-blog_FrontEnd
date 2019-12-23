@@ -79,30 +79,13 @@ export default {
       this.loading = true;
       article_findByArticleTitle(articleTitle)
       .then(resp => {
-        let data = resp.data;
-        console.log(data);
-        // 找寻失败
-        if (data.code == 0) {
-          this.$message({
-            showClose: true,
-            message: data.msg,
-            type: 'error'
-          });
-        }
-        // 找寻成功
-        else {
-          this.article = JSON.parse(data.data);
-          console.log('article --->', this.article);
-        }
+        console.log(resp);
+        this.article = JSON.parse(resp.data.data);  // JSON解析后端返回数据(resp.data)中的 data 字段
+        console.log('article --->', this.article);
         this.loading = false;
       })
       // 请求响应异常
       .catch(error => {
-        this.$message({
-          showClose: true,
-          type: 'error',
-          message: '出现了一个网络请求错误'
-        });
         console.log(error);
         this.loading = false;
       });

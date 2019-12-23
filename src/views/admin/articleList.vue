@@ -74,7 +74,7 @@
           <el-tag type="success">{{ scope.row.articleCategories }}</el-tag>
         </template>
       </el-table-column>
-      
+
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -117,15 +117,11 @@ export default {
     getArticleList() {
       this.tableLoading = true;
       article_listAll(1, 50).then((resp) => {
-        this.articleList = resp.data.list;
+        console.log(resp);
+        this.articleList = JSON.parse(resp.data.data); // JSON解析后端返回数据(resp.data)中的data字段
         console.log(this.articleList);
         this.tableLoading = false;
       }).catch((error) => {
-        this.$message({
-          showClose: true,
-          type: 'error',
-          message: '出现了一个网络请求错误'
-        });
         console.log(error);
         this.tableLoading = false;
       })
@@ -156,32 +152,11 @@ export default {
         article_delete(article.id)
         // 请求响应正常
         .then(resp => {
-          let data = resp.data;
-          console.log(data);
-          // 删除失败
-          if (data.code == 0) {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: 'error'
-            });
-          }
-          // 删除成功
-          else {
-            this.$message({
-              message: data.msg,
-              type: 'success'
-            });
-            this.getArticleList();
-          }
+          console.log(resp);
+          this.getArticleList();
         })
         // 请求响应异常
         .catch(error => {
-          this.$message({
-            showClose: true,
-            type: 'error',
-            message: '出现了一个网络请求错误'
-          });
           console.log(error);
         });
       })

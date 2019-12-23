@@ -1,33 +1,46 @@
 import axios from 'axios';
-import { Message } from 'element-ui';
+import VUE from '../main';
 
-// 允许跨域携带cookie
-// axios.defaults.withCredentials = true;
+const SUCCESS_CODE = 0;   // 成功
+const ERROR_CODE = 1;     // 出现错误
+const FAIL_CODE = 2;      // 失败
 
-// 添加响应拦截器
+// 后端返回数据示例
+const exmple = {
+  code: SUCCESS_CODE,
+  msg: "success",
+  data: "{username:dounine}"
+}
+
+// 添加响应拦截器，对响应信息作处理
 axios.interceptors.response.use(resp => {
-  // 对响应数据做点什么
-  let data = resp.data;
+  let data = resp.data; // 获取后端返回的数据
   console.log(data);
-  if (data.code == 0 || data.code == 1)
-    return resp;
 
-  if (data.code == 2) {
-    Message({
-      message: '请先登录',
-      type: 'error',
-      showClose: true
-    })
+  // 如果响应状态码表示不成功
+  if (data.code === ERROR_CODE || data.code === FAIL_CODE) {
+    // 显示后端返回的异常信息
+    VUE.$message({
+      showClose: true,
+      message: data.msg,
+      type: 'error'
+    });
+    return Promise.reject(resp); // 转由.catch()接收
   }
-  else if (data.code == 3) {
-    Message({
-      message: '莫得权限',
-      type: 'error',
-      showClose: true
-    })
+  // 如果响应状态码为成功
+  else if (data.code === SUCCESS_CODE) {
+    return resp; // 转由.then()接收
   }
-  return Promise.reject(resp);
 }, error => {
-  // 对响应错误做点什么
-  return Promise.reject(error);
+  // 对响应错误(通常是HTPP错误)做点什么
+  VUE.$message({
+    showClose: true,
+    message: "something error",
+    type: 'error'
+  });
+
+  // 已经显示错误信息了，不需要再交付给.catch()
+  return Promise.reject(error); // 转由.catch()接收
 });
+
+export {SUCCESS_CODE, ERROR_CODE, FAIL_CODE};

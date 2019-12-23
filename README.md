@@ -1,4 +1,4 @@
-# myblog_frontend
+# dou-blog_frontend
 
 ## Project setup
 

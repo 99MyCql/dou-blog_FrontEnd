@@ -15,8 +15,8 @@
               :rules="rules">
 
         <el-form-item label="用户名" prop="username" required>
-          <el-input v-model="registerForm.username" 
-                    clearable 
+          <el-input v-model="registerForm.username"
+                    clearable
                     autofocus
                     placeholder="username"
                     prefix-icon="el-icon-user">
@@ -95,29 +95,10 @@ export default {
         if (valid) {
           user_register(this.registerForm.username, this.registerForm.passwd)
           .then(resp => {
-            let data = resp.data;
-            console.log(data);
-            if (data.code == 0) {
-              this.$message({
-                showClose: true,
-                message: data.msg,
-                type: 'error'
-              });
-            }
-            else {
-              this.$message({
-                message: data.msg,
-                type: 'success'
-              });
-              this.$router.push('/login');
-            }
+            console.log(resp);
+            this.$router.push('/login');
           })
           .catch(error => {
-            this.$message({
-              showClose: true,
-              message: '出现了一个网络请求错误',
-              type: 'error'
-            });
             console.log(error);
           });
         }

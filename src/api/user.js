@@ -68,14 +68,5 @@ export const user_update = (user) => {
     method: 'post',
     url: '/api/user/update',
     data: user
-      // birthday: string,
-      // email: string,
-      // gender: 0,
-      // name: string,
-      // password: string,
-      // personalBrief: string,
-      // phone: string,
-      // qq: string,
-      // role: string
   })
 }

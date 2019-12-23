@@ -52,7 +52,7 @@
           {{ scope.row.commentContent }}
         </template>
       </el-table-column>
-      
+
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -90,16 +90,11 @@ export default {
       this.tableLoading = true;
       comment_listAll(1, 50)
       .then((resp) => {
-        console.log(resp.data);
-        this.commentList = resp.data.list;
-        console.log('commentList ---> ', this.commentList);
+        console.log(resp);
+        this.commentList = JSON.parse(resp.data.data); // JSON解析后端返回数据(resp.data)中的data字段
+        console.log(this.commentList);
         this.tableLoading = false;
       }).catch((error) => {
-        this.$message({
-          showClose: true,
-          type: 'error',
-          message: '出现了一个网络请求错误'
-        });
         console.log(error);
         this.tableLoading = false;
       })
@@ -118,32 +113,11 @@ export default {
         comment_delete(comment.id)
         // 请求响应正常
         .then(resp => {
-          var data = resp.data;
-          console.log(data);
-          // 删除失败
-          if (data.code == 0) {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: 'error'
-            });
-          }
-          // 删除成功
-          else {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            });
-            this.getCommentList();
-          }
+          console.log(resp);
+          this.getCommentList();
         })
         // 请求响应异常
         .catch(error => {
-          this.$message({
-            showClose: true,
-            type: 'error',
-            message: '出现了一个网络请求错误'
-          });
           console.log(error);
         });
       })

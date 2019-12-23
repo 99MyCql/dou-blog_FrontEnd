@@ -24,7 +24,7 @@
       </el-carousel>
 
       <el-timeline v-loading="loading" class="card-list">
-        <el-timeline-item v-for="article in articleList" :timestamp="article.publishDate" placement="top">
+        <el-timeline-item v-for="article in articleList" :key="article.id" :timestamp="article.publishDate" placement="top">
           <el-card shadow="hover">
             <div class="card-header">
               <div class="article-title">
@@ -67,15 +67,11 @@ export default {
     getArticleList() {
       this.loading = true;
       article_listAll(1, 50).then((resp) => {
-        this.articleList = resp.data.list;
+        console.log(resp);
+        this.articleList = JSON.parse(resp.data.data); // JSON解析后端返回数据(resp.data)中的data字段
         console.log(this.articleList);
         this.loading = false;
       }).catch((error) => {
-        this.$message({
-          showClose: true,
-          type: 'error',
-          message: '出现了一个网络请求错误'
-        });
         console.log(error);
         this.loading = false;
       })

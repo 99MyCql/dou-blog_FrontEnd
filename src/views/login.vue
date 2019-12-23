@@ -8,8 +8,8 @@
 
       <el-form ref="login_form" :model="login_form" size="medium" class="login-form" :rules="rules">
         <el-form-item required>
-          <el-input v-model="login_form.username" 
-                    clearable 
+          <el-input v-model="login_form.username"
+                    clearable
                     autofocus
                     placeholder="username"
                     prefix-icon="el-icon-user">
@@ -42,6 +42,7 @@
 
 <script>
 import { user_login } from '@/api/user.js';
+import {SUCCESS_CODE, ERROR_CODE, FAIL_CODE} from '@/api/setting.js';
 import store from '@/store/store';
 
 export default {
@@ -71,35 +72,11 @@ export default {
         user_login(this.login_form.username, this.login_form.password)
         // 请求成功
         .then((resp) => {
-          let data = resp.data;
-          console.log(data);
-          // login失败
-          if (data.code == 0) {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: 'error'
-            });
-          }
-          // 登录成功
-          else {
-            this.$message({
-              message: '登录成功',
-              type: 'success'
-            });
-            store.setUserNameAction(this.login_form.username);
-            let isLogin = true;
-            store.setIsLoginAction(isLogin);
-            this.$router.push('/home');
-          }
+          store.setIsLoginAction(true);                       // 设置登录状态为true
+          store.setUserNameAction(this.login_form.username);  // 保存用户名
+          this.$router.push('/home');                         // 跳转至主页面
         })
-        // 请求异常
         .catch(error => {
-          this.$message({
-            showClose: true,
-            message: error,
-            type: 'error'
-          });
           console.log(error);
         });
       }
@@ -108,7 +85,7 @@ export default {
         this.$message({
           showClose: true,
           message: '账号密码不能为空',
-          type: 'error'
+          type: 'warning'
         })
       }
     }

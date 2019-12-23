@@ -15,7 +15,7 @@
         v-model="comment.commentContent">
       </el-input>
       <!-- comment content -->
-      
+
       <div class="comment-button">
         <el-button @click="comment = ''" round>取消</el-button>
         <el-button type="primary" @click="submitComment" round>发表</el-button>
@@ -79,45 +79,19 @@ export default {
       console.log(this.comment);
       // 如果评论内容为空
       if (this.comment.commentContent === '') {
-        this.$message({
-          showClose: true,
-          message: '评论内容不能为空',
-          type: 'error'
-        })
+        this.$message.error('评论内容不能为空');
         this.commentWrite_loading = false;
       }
       // 评论内容不为空
       else {
         comment_insert(this.comment)
         .then(resp => {
-          let data = resp.data;
-          console.log(data);
-          // 插入失败
-          if (data.code == 0) {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: 'error'
-            });
-          }
-          // 找插入成功
-          else {
-            this.$message({
-              showClose: true,
-              message: '发表成功',
-              type: 'success'
-            });
-            this.comment.commentContent = '';
-          }
+          console.log(resp);
+          this.comment.commentContent = '';
           this.commentWrite_loading = false;
           this.getCommentList(this.articleId);
         })
         .catch(error => {
-          this.$message({
-            showClose: true,
-            type: 'error',
-            message: '出现了一个网络请求错误'
-          });
           console.log(error);
           this.commentWrite_loading = false;
         })
@@ -144,30 +118,13 @@ export default {
       console.log('=====getCommentList()======');
       comment_listByArticleId(articleId)
       .then(resp => {
-        let data = resp.data;
-        console.log(data);
-        // 获取评论列表失败
-        if (data.code == 0) {
-          this.$message({
-            showClose: true,
-            message: data.msg,
-            type: 'error'
-          });
-        }
-        // 获取评论列表成功
-        else {
-          this.commentList = JSON.parse(data.data);
-          console.log('commentList --->', this.commentList);
-          this.commentsCount = this.commentList.length;
-        }
+        console.log(resp);
+        this.commentList = JSON.parse(resp.data.data);
+        console.log('commentList --->', this.commentList);
+        this.commentsCount = this.commentList.length;
         this.commentList_loading = false;
       })
       .catch(error => {
-        this.$message({
-          showClose: true,
-          type: 'error',
-          message: '出现了一个网络请求错误'
-        });
         console.log(error);
         this.commentList_loading = false;
       })

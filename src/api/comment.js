@@ -16,12 +16,6 @@ export const comment_insert = (comment) => {
     method: 'post',
     url: '/api/comment/insert',
     data: comment
-    // "articleId": 0,
-    // "commentContent": "string",
-    // "commentDate": "string",
-    // "commenterId": 0,
-    // "likes": 0,
-    // "parent_id": 0
   })
 }
 

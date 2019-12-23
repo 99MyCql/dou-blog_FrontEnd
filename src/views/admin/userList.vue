@@ -64,7 +64,7 @@
           {{ scope.row.phone }}
         </template>
       </el-table-column>
-      
+
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -97,15 +97,11 @@ export default {
     getUserList() {
       this.tableLoading = true;
       user_listAll(1, 50).then((resp) => {
-        this.userList = resp.data.list;
+        console.log(resp);
+        this.userList = JSON.parse(resp.data.data); // JSON解析后端返回数据(resp.data)中的data字段
         console.log(this.userList);
         this.tableLoading = false;
       }).catch((error) => {
-        this.$message({
-          showClose: true,
-          type: 'error',
-          message: '出现了一个网络请求错误'
-        });
         console.log(error);
         this.tableLoading = false;
       })
@@ -128,32 +124,11 @@ export default {
         user_delete(user.id)
         // 请求响应正常
         .then(resp => {
-          var data = resp.data;
-          console.log(data);
-          // 删除失败
-          if (data.code == 0) {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: 'error'
-            });
-          }
-          // 删除成功
-          else {
-            this.$message({
-              message: data.msg,
-              type: 'success'
-            });
-            this.getUserList();
-          }
+          console.log(resp);
+          this.getUserList();
         })
         // 请求响应异常
         .catch(error => {
-          this.$message({
-            showClose: true,
-            type: 'error',
-            message: '出现了一个网络请求错误'
-          });
           console.log(error);
         });
       })

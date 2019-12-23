@@ -7,7 +7,7 @@
       <!-- logo -->
 
       <router-link to="/home">
-        <div class="project-name">My Blog</div>
+        <div class="project-name">Dou-Blog</div>
       </router-link>
       <!-- name -->
     </div>
@@ -30,7 +30,7 @@
             <a @click="handleRouter('/userInfo')"><i class="el-icon-setting"></i>个人信息</a>
           </el-dropdown-item>
           <el-dropdown-item>
-            <a href="https://github.com/99MyCql/myblog_BackEnd/issues" target="_blank"><i class="el-icon-question"></i>反馈</a>
+            <a href="https://github.com/99MyCql/dou-blog_BackEnd/issues" target="_blank"><i class="el-icon-question"></i>反馈</a>
           </el-dropdown-item>
           <el-dropdown-item>
             <a @click="logout()"><i class="el-icon-switch-button"></i>退出登录</a>
@@ -48,9 +48,9 @@ import {resetRouter} from '@/router/router';
 export default {
   methods: {
     logout() {
-      store.clearStateAction();
-      resetRouter();
-      this.$router.push('/');
+      store.clearStateAction(); // 清除全局缓存
+      resetRouter();            // 重置路由
+      this.$router.push('/');   // 跳转至 login 页面
     },
     handleRouter(router) {
       if (router == '/admin' && store.state.user.role != 'admin') {
