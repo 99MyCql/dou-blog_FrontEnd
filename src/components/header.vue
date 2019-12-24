@@ -54,11 +54,7 @@ export default {
     },
     handleRouter(router) {
       if (router == '/admin' && store.state.user.role != 'admin') {
-        this.$message({
-          showClose: true,
-          message: '莫得权限',
-          type: 'warning'
-        });
+        this.$message.warning('莫得权限');
         return;
       }
       this.$router.push(router);

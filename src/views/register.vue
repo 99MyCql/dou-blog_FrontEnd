@@ -97,6 +97,7 @@ export default {
           .then(resp => {
             console.log(resp);
             this.$router.push('/login');
+            this.$message.success('注册成功');
           })
           .catch(error => {
             console.log(error);

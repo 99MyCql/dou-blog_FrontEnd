@@ -82,7 +82,7 @@ export default {
           // 成功
           .then(resp => {
             console.log(resp);
-            this.$message.success(resp.data.msg);
+            this.$message.success('提交成功');
             this.$router.push('/userInfo');
           })
           // 异常

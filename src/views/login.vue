@@ -75,6 +75,7 @@ export default {
           store.setIsLoginAction(true);                       // 设置登录状态为true
           store.setUserNameAction(this.login_form.username);  // 保存用户名
           this.$router.push('/home');                         // 跳转至主页面
+          this.$message.success('登录成功');
         })
         .catch(error => {
           console.log(error);
@@ -82,11 +83,7 @@ export default {
       }
       // 账号密码为空
       else {
-        this.$message({
-          showClose: true,
-          message: '账号密码不能为空',
-          type: 'warning'
-        })
+        this.$message.warning('账号密码不能为空');
       }
     }
   }

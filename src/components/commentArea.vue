@@ -67,9 +67,9 @@ export default {
       },
       commentWrite_loading: false,
       commentList_loading: false,
-      commentList: [],      // 评论列表
-      commentList_page: 0,  // 评论列表的页号
-      commentList_size: 10, // 评论列表每页的评论数
+      commentList: [],        // 评论列表
+      commentList_page: 1,    // 评论列表的页号
+      commentList_size: 50,   // 评论列表每页的评论数
     }
   },
   methods: {
@@ -90,6 +90,7 @@ export default {
           console.log(resp);
           this.comment.commentContent = '';
           this.commentWrite_loading = false;
+          this.$message.success('发表成功');
           // this.getCommentList(articleId);
         })
         .catch(error => {
@@ -115,14 +116,13 @@ export default {
       return COLORS[index];
     },
     // 根据 page, size 懒加载评论列表
-    getCommentList(articleId) {
+    getCommentList() {
       console.log('=====getCommentList()======');
 
-      this.commentList_page++;          // 获取下一页的评论列表
       this.commentList_loading = true;  // 设置评论列表为加载状态
 
       // 根据 page, size 值获取评论列表
-      comment_listByArticleId(articleId, this.commentList_page, this.commentList_size)
+      comment_listByArticleId(this.articleId, this.commentList_page, this.commentList_size)
       .then(resp => {
         console.log(resp);
         this.commentList = JSON.parse(resp.data.data);
@@ -138,7 +138,7 @@ export default {
   // 监听变量，一旦变化，即执行相应操作
   watch: {
     articleId(articleId) {
-      this.getCommentList(articleId);
+      this.getCommentList();
     }
   }
 }

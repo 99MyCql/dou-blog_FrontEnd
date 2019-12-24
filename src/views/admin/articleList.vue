@@ -75,9 +75,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="120">
         <template slot-scope="scope">
           <el-button
+            style="margin-left: 10px;"
             size="small"
             icon="el-icon-view"
             @click="viewArticle(scope.row)">查看</el-button>

@@ -4,7 +4,7 @@
       <head-er></head-er>
     </el-header>
 
-    <el-main class="home-main" style="margin-top: 60px;padding: 20px 20%;width: 100%;">
+    <el-main class="home-main">
       <el-carousel :interval="6000" :type="getType()" class="carousel">
         <el-carousel-item>
           <div class="img-container"><img src="../assets/fangao/星空_small.jpg"></img></div>
@@ -115,6 +115,12 @@ export default {
 }
 
 @media (min-width: 900px) {
+  .home-main {
+    margin-top: 60px;
+    padding: 20px 20%;
+    width: 100%;
+  }
+
   .carousel {
     height: 400px;
   }
@@ -124,15 +130,20 @@ export default {
     align-items: center;
   }
 
-  .article-title {
+  .card-header .article-title {
     display: inline;
-    font-size: 30px;
+    font-size: 25px;
     margin-right: 10px;
     font-family: "Microsoft Yahei";
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 980px) {
+  .home-main{
+    margin-top: 60px;
+    padding: 0 15%;
+  }
+
   .carousel {
     height: 300px;
   }
@@ -142,7 +153,7 @@ export default {
     align-items: center;
   }
 
-  .article-title {
+  .card-header .article-title {
     display: inline;
     font-size: 15px;
     margin-right: 3px;
