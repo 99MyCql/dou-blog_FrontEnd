@@ -1,5 +1,12 @@
 import axios from 'axios'
 
+export const count_comments = () => {
+  return axios.request({
+    method: 'get',
+    url: '/api/comment/count'
+  })
+}
+
 export const comment_listAll = (page, size) => {
   return axios.request({
     method: 'get',

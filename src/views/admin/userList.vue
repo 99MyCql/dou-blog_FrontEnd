@@ -81,7 +81,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" min-width="100">
         <template slot-scope="scope">
           <el-button
             size="small"
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { user_listAll, user_delete } from '@/api/user';
+import { user_listAll, user_delete, count_users } from '@/api/user';
 import pageTitle from '@/components/pageTitle';
 
 export default {
@@ -185,8 +185,9 @@ export default {
             console.log(resp);
             // 如果删除完毕
             if (i == len-1) {
-              that.getUserList(); // 重新获取列表
-              this.$message.success('删除成功');
+              that.getUserList();         // 重新获取用户列表
+              that.userList_max -= len;   // 用户列表长度 -= len
+              that.$message.success('删除成功');
             }
             else {
               i++;    // 指向下一个待删除评论
@@ -218,7 +219,8 @@ export default {
         // 请求响应正常
         .then(resp => {
           console.log(resp);
-          this.getUserList();
+          this.getUserList();   // 重新获取用户列表
+          this.userList_max--;  // 用户列表长度--
           this.$message.success('删除成功');
         })
         // 请求响应异常
@@ -230,6 +232,13 @@ export default {
   },
   created() {
     this.getUserList();
+    count_users().then(resp => {
+      console.log(resp);
+      this.userList_max = parseInt(resp.data.data);
+      console.log('userList_max--->', this.userList_max);
+    }).catch(error => {
+      console.log(error);
+    });
   },
 }
 </script>

@@ -1,12 +1,13 @@
 <template>
   <el-menu default-active="/admin/articleList"
     :collapse="isCollapse"
-    :router="true"
+    router
     background-color="#545c64"
     text-color="#fff"
     active-text-color="#ffd04b"
     mode="vertical"
-    :collapse-transition="true"
+    collapse-transition
+    :default-active="curIndex"
     style="height:100%">
 
     <el-submenu index="/admin">
@@ -41,6 +42,11 @@ export default {
     },
     isCollapse: {
       type: Boolean
+    }
+  },
+  data() {
+    return {
+      curIndex: this.$route.path
     }
   }
 }

@@ -1,5 +1,12 @@
 import axios from 'axios'
 
+export const count_users = () => {
+  return axios.request({
+    method: 'get',
+    url: '/api/user/count'
+  })
+}
+
 export const user_login = (name, password) => {
   return axios.request({
     method: 'get',

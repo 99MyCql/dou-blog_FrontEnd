@@ -1,5 +1,12 @@
 import axios from 'axios'
 
+export const count_articles = () => {
+  return axios.request({
+    method: 'get',
+    url: '/api/article/count'
+  })
+}
+
 export const article_listAll = (page, size) => {
   return axios.request({
     method: 'get',

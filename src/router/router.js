@@ -95,10 +95,13 @@ router.beforeEach((to, from, next) => {
         if (user.role == 'admin') {
           console.log('the user is admin');
           router.addRoutes(adminRoutes); // 动态添加admin可访问路由表
+          next(to); // 用next()的话，刷新无效
           console.log('add routers:', adminRoutes);
         }
-
-        next(); // 放行
+        // 其它用户直接放行
+        else {
+          next();
+        }
       })
       // 请求异常
       .catch(error => {
@@ -109,7 +112,8 @@ router.beforeEach((to, from, next) => {
     }
     // 如果用户已确认过身份
     else {
-      next(); // 放行
+      // 放行
+      next();
     }
   }
   // 如果用户未登录，直接跳转到登录界面

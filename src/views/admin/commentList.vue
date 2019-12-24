@@ -34,6 +34,13 @@
       </el-table-column>
 
       <el-table-column
+        label="评论内容">
+        <template slot-scope="scope">
+          {{ scope.row.commentContent }}
+        </template>
+      </el-table-column>
+
+      <el-table-column
         label="文章标题"
         width="180">
         <template slot-scope="scope">
@@ -62,14 +69,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="评论内容">
-        <template slot-scope="scope">
-          {{ scope.row.commentContent }}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" min-width="100">
         <template slot-scope="scope">
           <el-button
             size="small"
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { comment_listAll, comment_delete } from '@/api/comment';
+import { comment_listAll, comment_delete, count_comments } from '@/api/comment';
 import { article_findById } from '@/api/article';
 import { user_findById } from '@/api/user';
 import pageTitle from '@/components/pageTitle';
@@ -176,8 +176,9 @@ export default {
             console.log(resp);
             // 如果删除完毕
             if (i == len-1) {
-              that.getCommentList(); // 重新获取列表
-              this.$message.success('删除成功');
+              that.getCommentList();        // 重新获取列表
+              that.commentList_max -= len;  // 评论列表数量 -= len
+              that.$message.success('删除成功');
             }
             else {
               i++;    // 指向下一个待删除评论
@@ -209,7 +210,8 @@ export default {
         // 请求响应正常
         .then(resp => {
           console.log(resp);
-          this.getCommentList();
+          this.getCommentList();  // 重新获取评论列表
+          this.commentList_max--; // 评论列表长度--
           this.$message.success('删除成功');
         })
         // 请求响应异常
@@ -221,6 +223,13 @@ export default {
   },
   created() {
     this.getCommentList();
+    count_comments().then(resp => {
+      console.log(resp);
+      this.commentList_max = parseInt(resp.data.data);
+      console.log('commentList_max--->', this.commentList_max);
+    }).catch(error => {
+      console.log(error);
+    });
   },
 }
 </script>
