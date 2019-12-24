@@ -165,6 +165,8 @@ export default {
           return;
         }
 
+        this.tableLoading = true; // 设置评论列表为加载状态
+
         // 遍历被选中的评论
         let i = 0;        // 从0开始遍历
         let that = this;  // 保存当前对象
@@ -179,6 +181,7 @@ export default {
               that.getCommentList();        // 重新获取列表
               that.commentList_max -= len;  // 评论列表数量 -= len
               that.$message.success('删除成功');
+              this.tableLoading = false;    // 设置评论列表为非加载状态
             }
             else {
               i++;    // 指向下一个待删除评论

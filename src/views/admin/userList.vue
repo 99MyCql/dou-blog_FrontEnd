@@ -174,6 +174,8 @@ export default {
           return;
         }
 
+        this.tableLoading = true; // 设置用户列表为加载状态
+
         // 遍历被选中的用户
         let i = 0;        // 从0开始遍历
         let that = this;  // 保存当前对象
@@ -188,6 +190,7 @@ export default {
               that.getUserList();         // 重新获取用户列表
               that.userList_max -= len;   // 用户列表长度 -= len
               that.$message.success('删除成功');
+              this.tableLoading = false;  // 设置用户列表为加载状态
             }
             else {
               i++;    // 指向下一个待删除评论
