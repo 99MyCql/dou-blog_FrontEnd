@@ -22,14 +22,14 @@
         label="文章标题"
         width="150">
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.articleTitle }}</el-tag>
+          <el-tag>{{ scope.row.title }}</el-tag>
         </template>
       </el-table-column>
 
       <el-table-column
         label="文章摘要">
         <template slot-scope="scope">
-          {{ scope.row.articleTabloid }}
+          {{ scope.row.summary }}
         </template>
       </el-table-column>
 
@@ -55,7 +55,7 @@
         label="阅读量"
         width="80">
         <template slot-scope="scope">
-          {{ scope.row.readers }}
+          {{ scope.row.readings }}
         </template>
       </el-table-column>
 
@@ -71,7 +71,7 @@
         label="分类"
         width="120">
         <template slot-scope="scope">
-          <el-tag type="success">{{ scope.row.articleCategories }}</el-tag>
+          <el-tag type="success">{{ scope.row.categories }}</el-tag>
         </template>
       </el-table-column>
 
@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { article_listAll, article_delete } from '@/api/article';
+import { article_listByPage, article_delete } from '@/api/article';
 import pageTitle from '@/components/pageTitle';
 
 export default {
@@ -117,8 +117,8 @@ export default {
     // 获取文章列表
     getArticleList() {
       this.tableLoading = true;
-      article_listAll(1, 50).then((resp) => {
-        console.log(resp);
+      article_listByPage(1, 50).then((resp) => {
+        console.log(resp.data);
         this.articleList = JSON.parse(resp.data.data); // JSON解析后端返回数据(resp.data)中的data字段
         console.log(this.articleList);
         this.tableLoading = false;
@@ -132,12 +132,12 @@ export default {
       this.$router.push(router);
     },
     viewArticle(article) {
-      this.$router.push({ path: '/article', query: { articleTitle: article.articleTitle }});
+      this.$router.push({ path: '/article', query: { title: article.title }});
     },
     // 编辑文章
     editArticle(article) {
       console.log(article);
-      this.$router.push({ path: '/admin/articleEdit', query: { articleTitle: article.articleTitle }});
+      this.$router.push({ path: '/admin/articleEdit', query: { title: article.title }});
     },
     // 删除文章
     deleteArticle(article) {

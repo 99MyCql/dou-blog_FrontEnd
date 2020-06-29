@@ -36,7 +36,7 @@
       <el-table-column
         label="评论内容">
         <template slot-scope="scope">
-          {{ scope.row.commentContent }}
+          {{ scope.row.CONTENT }}
         </template>
       </el-table-column>
 
@@ -45,8 +45,8 @@
         width="180">
         <template slot-scope="scope">
           <el-tag size="medium">
-            <router-link :to="{ path: '/article', query: { articleTitle: scope.row.articleTitle }}">
-              {{ scope.row.articleTitle }}
+            <router-link :to="{ path: '/article', query: { title: scope.row.title }}">
+              {{ scope.row.TITLE }}
             </router-link>
           </el-tag>
         </template>
@@ -56,7 +56,7 @@
         label="评论者用户名"
         width="180">
         <template slot-scope="scope">
-          <el-tag size="medium">{{ scope.row.commenterName }}</el-tag>
+          <el-tag size="medium">{{ scope.row.USERNAME }}</el-tag>
         </template>
       </el-table-column>
 
@@ -65,7 +65,7 @@
         width="180">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.commentDate }}</span>
+          <span style="margin-left: 10px">{{ scope.row.PUBLISHDATE }}</span>
         </template>
       </el-table-column>
 
@@ -83,9 +83,7 @@
 </template>
 
 <script>
-import { comment_listAll, comment_delete, count_comments } from '@/api/comment';
-import { article_findById } from '@/api/article';
-import { user_findById } from '@/api/user';
+import { comment_listByPage, comment_delete, count_comments } from '@/api/comment';
 import pageTitle from '@/components/pageTitle';
 
 export default {
@@ -136,7 +134,7 @@ export default {
      */
     getCommentList() {
       this.tableLoading = true;
-      comment_listAll(this.commentList_page, this.commentList_size)
+      comment_listByPage(this.commentList_page, this.commentList_size)
       .then((resp) => {
         console.log(resp);
         this.commentList = JSON.parse(resp.data.data); // JSON解析后端返回数据(resp.data)中的data字段

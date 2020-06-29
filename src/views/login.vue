@@ -41,8 +41,7 @@
 </template>
 
 <script>
-import { user_login } from '@/api/user.js';
-import {SUCCESS_CODE, ERROR_CODE, FAIL_CODE} from '@/api/setting.js';
+import { user_login, user_getInfo } from '@/api/user.js';
 import store from '@/store/store';
 
 export default {
@@ -72,10 +71,25 @@ export default {
         user_login(this.login_form.username, this.login_form.password)
         // 请求成功
         .then((resp) => {
-          store.setIsLoginAction(true);                       // 设置登录状态为true
-          store.setUserNameAction(this.login_form.username);  // 保存用户名
-          this.$router.push('/home');                         // 跳转至主页面
-          this.$message.success('登录成功');
+          user_getInfo()
+          // 获取用户数据成功
+          .then(resp => {
+            // 从后端返回数据(resp.data)的 data 字段中获取用户信息，需要先解析
+            let user = JSON.parse(resp.data.data);
+            console.log(user);
+            store.setIsLoginAction(true);                       // 设置登录状态为true
+            store.setUserNameAction(this.login_form.username);  // 保存用户名
+            store.setRoleAction(user.role);                     // 储存用户身份
+            // 如果用户身份是管理员
+            if (user.role == 'admin')
+              this.$router.addAdminRoutes();
+            this.$message.success('登录成功');
+            this.$router.push('/home');                         // 跳转至主页面
+          })
+          .catch(error => {
+            console.log(error);
+            this.$message.error('获取用户信息错误');
+          })
         })
         .catch(error => {
           console.log(error);

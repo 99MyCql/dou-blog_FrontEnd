@@ -9,11 +9,11 @@
       <page-title title="个人信息"/>
       <el-form ref="userForm" :model="user" label-width="100px">
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="user.name" />
+          <el-input v-model="user.username" />
         </el-form-item>
 
         <el-form-item label="性别">
-          <el-radio-group v-model="user.gender">
+          <el-radio-group v-model="user.sex">
             <el-radio :label="1">男</el-radio>
             <el-radio :label="0">女</el-radio>
           </el-radio-group>
@@ -36,7 +36,7 @@
         </el-form-item>
 
         <el-form-item label="个性签名">
-          <el-input v-model="user.personalBrief" type="textarea" :rows="3"/>
+          <el-input v-model="user.profile" type="textarea" :rows="3"/>
         </el-form-item>
 
         <el-form-item>
@@ -52,7 +52,7 @@
 <script>
 import pageTitle from '@/components/pageTitle';
 import headEr from '@/components/header';
-import { user_findByName, user_update } from '@/api/user';
+import { user_getInfo, user_update } from '@/api/user';
 import store from '@/store/store';
 
 export default {
@@ -99,10 +99,10 @@ export default {
   },
   created() {
     this.loading = true;
-    user_findByName(store.state.user.userName)
+    user_getInfo()
     .then(resp => {
-      console.log(resp);
       this.user = JSON.parse(resp.data.data);
+      console.log(this.user);
       this.loading = false;
     })
     // 异常
