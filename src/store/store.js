@@ -11,17 +11,19 @@ var store = {
   setUserNameAction (userName) {
     if (this.debug) console.log('setUserNameAction triggered with', userName);
     this.state.user.userName = userName;
-    localStorage.userName = userName; // 储存到本地缓存中
+    sessionStorage.userName = userName; // 储存到本地缓存中
   },
   setIsLoginAction (isLogin) {
+    if (isLogin === 'false') isLogin = false;
+    else if (isLogin === 'true') isLogin = true;
     if (this.debug) console.log('setIsLoginAction triggered with', isLogin);
-    this.state.user.isLogin = isLogin;
-    localStorage.isLogin = isLogin; // 储存到本地缓存中
+    this.state.user.isLogin = Boolean(isLogin);
+    sessionStorage.isLogin = Boolean(isLogin); // 储存到本地缓存中
   },
   setRoleAction (role) {
     if (this.debug) console.log('setRoleAction triggered with', role);
     this.state.user.role = role;
-    // 不用储存用户身份，因为在router.beforeEach()中，会判断：若未确定身份，则获取用户身份
+    sessionStorage.role = role;
   },
   clearStateAction () {
     if (this.debug) console.log('clearStateAction triggered');

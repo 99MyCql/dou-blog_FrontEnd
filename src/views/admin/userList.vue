@@ -37,14 +37,14 @@
         label="用户名"
         width="150">
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.name }}</el-tag>
+          <el-tag>{{ scope.row.username }}</el-tag>
         </template>
       </el-table-column>
 
       <el-table-column
         label="个性签名">
         <template slot-scope="scope">
-          {{ scope.row.personalBrief }}
+          {{ scope.row.profile }}
         </template>
       </el-table-column>
 
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { user_listAll, user_delete, count_users } from '@/api/user';
+import { user_listByPage, user_delete, count_users } from '@/api/user';
 import pageTitle from '@/components/pageTitle';
 
 export default {
@@ -142,7 +142,7 @@ export default {
     // 获取用户列表
     getUserList() {
       this.tableLoading = true; // 设置列表加载状态为 true
-      user_listAll(this.userList_page, this.userList_size).then((resp) => {
+      user_listByPage(this.userList_page, this.userList_size).then((resp) => {
         console.log(resp);
         this.userList = JSON.parse(resp.data.data); // JSON解析后端返回数据(resp.data)中的data字段
         console.log('userList--->', this.userList);

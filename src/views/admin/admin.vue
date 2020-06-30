@@ -6,7 +6,7 @@
     <!-- 头部导航栏 -->
 
     <aside-menu
-      style="background-color: rgb(84, 92, 100);height: 100%;position: fixed;z-index: 99;margin-top: 60px;"
+      style="background-color: rgb(84, 92, 100);height: 100%;width: 200px;position: fixed;z-index: 99;margin-top: 60px;"
       :handleRouter='handleRouter'
       :isCollapse='isFold'>
     </aside-menu>

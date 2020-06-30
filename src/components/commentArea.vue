@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="comment-write" v-loading="commentWrite_loading">
+    <div v-if="this.isLogin === false" style="padding: 20px 40%;display: flex;flex-direction: column;">
+      <el-button type="primary" size="medium" @click="handleRouter('/login')">登录后评论</el-button>
+    </div>
+    <div v-else class="comment-write" v-loading="commentWrite_loading">
       <div class="comment-username">
         {{ username }} :
       </div>
@@ -12,7 +15,7 @@
         placeholder="写下你的评论..."
         maxlength="200"
         show-word-limit
-        v-model="comment.commentContent">
+        v-model="comment.content">
       </el-input>
       <!-- comment content -->
 
@@ -31,15 +34,15 @@
 
       <div class="comment-one" v-for="item in commentList">
         <div class="comment-info">
-          <div class="comment-author" :style="{color:getUsernameColor(item.commenterName)}">
-            {{ item.commenterName }}
+          <div class="comment-author" :style="{color:getUsernameColor(item.username)}">
+            {{ item.username }}
           </div>
           <div class="comment-date">
-            {{ item.commentDate }}
+            {{ item.publishDate }}
           </div>
         </div>
         <p>
-          {{ item.commentContent }}
+          {{ item.content }}
         </p>
       </div>
     </div>
@@ -49,7 +52,6 @@
 
 <script>
 import { comment_insert, comment_listByArticleId } from '@/api/comment';
-import { user_findById } from '@/api/user';
 import store from '@/store/store';
 
 export default {
@@ -60,10 +62,11 @@ export default {
   },
   data() {
     return {
+      isLogin: store.state.user.isLogin,
       username: store.state.user.userName,
       comment: {
         articleId: 0,
-        commentContent: ''
+        content: ''
       },
       commentWrite_loading: false,
       commentList_loading: false,
@@ -79,7 +82,7 @@ export default {
       this.comment.articleId = this.articleId;
       console.log(this.comment);
       // 如果评论内容为空
-      if (this.comment.commentContent === '') {
+      if (this.comment.content === '') {
         this.$message.error('评论内容不能为空');
         this.commentWrite_loading = false;
       }
@@ -88,10 +91,10 @@ export default {
         comment_insert(this.comment)
         .then(resp => {
           console.log(resp);
-          this.comment.commentContent = '';
+          this.comment.content = '';
           this.commentWrite_loading = false;
           this.$message.success('发表成功');
-          // this.getCommentList(articleId);
+          this.getCommentList(this.articleId);
         })
         .catch(error => {
           console.log(error);
@@ -118,13 +121,10 @@ export default {
     // 根据 page, size 懒加载评论列表
     getCommentList() {
       console.log('=====getCommentList()======');
-
       this.commentList_loading = true;  // 设置评论列表为加载状态
-
       // 根据 page, size 值获取评论列表
       comment_listByArticleId(this.articleId, this.commentList_page, this.commentList_size)
       .then(resp => {
-        console.log(resp);
         this.commentList = JSON.parse(resp.data.data);
         console.log('commentList--->', this.commentList);
         this.commentList_loading = false; // 设置评论列表为非加载状态
@@ -134,6 +134,9 @@ export default {
         this.commentList_loading = false;
       })
     },
+    handleRouter(router) {
+      this.$router.push(router);
+    }
   },
   // 监听变量，一旦变化，即执行相应操作
   watch: {

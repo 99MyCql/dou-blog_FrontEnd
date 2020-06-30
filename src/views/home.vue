@@ -28,17 +28,17 @@
           <el-card shadow="hover">
             <div class="card-header">
               <div class="article-title">
-                <router-link :to="{ path: '/article', query: { articleTitle: article.articleTitle }}">
-                  <b style="color:black">{{ article.articleTitle }}</b>
+                <router-link :to="{ path: '/article', query: { title: article.title }}">
+                  <b style="color:black">{{ article.title }}</b>
                 </router-link>
               </div>
-              <el-tag size="mini">{{ article.articleCategories }}</el-tag>
+              <el-tag size="mini">{{ article.categories }}</el-tag>
             </div>
 
-            <p style="color: #999;">{{ article.articleTabloid }}</p>
+            <p style="color: #999;">{{ article.summary }}</p>
 
             <div style="color: #999;">
-              <i class="el-icon-view"></i><span style="margin-left:5px;margin-right:10px">{{ article.readers }}</span>
+              <i class="el-icon-view"></i><span style="margin-left:5px;margin-right:10px">{{ article.readings }}</span>
               <i class="el-icon-chat-square"></i><span style="margin-left:5px">{{ article.comments }}</span>
             </div>
           </el-card>
@@ -50,7 +50,7 @@
 
 <script>
 import headEr from '@/components/header';
-import { article_listAll } from '@/api/article';
+import { article_listByPage } from '@/api/article';
 
 export default {
   components: {
@@ -66,8 +66,7 @@ export default {
     // 获取文章列表
     getArticleList() {
       this.loading = true;
-      article_listAll(1, 50).then((resp) => {
-        console.log(resp);
+      article_listByPage(1, 50).then((resp) => {
         this.articleList = JSON.parse(resp.data.data); // JSON解析后端返回数据(resp.data)中的data字段
         console.log(this.articleList);
         this.loading = false;
@@ -79,11 +78,11 @@ export default {
     // 查看文章
     viewArticel(article) {
       console.log(article);
-      this.$router.push({ path: '/article', query: { articleTitle: article.articleTitle }})
+      this.$router.push({ path: '/article', query: { title: article.title }})
     },
     // 根据屏幕大小返回走马灯样式
     getType() {
-      console.log(window.screen.width);
+      console.log('window.screen.width:', window.screen.width);
       return window.screen.width > 900 ? 'card' : '';
     }
   },

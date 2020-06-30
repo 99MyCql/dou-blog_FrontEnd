@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from './setting'
 
 export const count_comments = () => {
   return axios.request({
@@ -7,10 +7,10 @@ export const count_comments = () => {
   })
 }
 
-export const comment_listAll = (page, size) => {
+export const comment_listByPage = (page, size) => {
   return axios.request({
     method: 'get',
-    url: '/api/comment/listAll',
+    url: '/api/comment/listByPage',
     params: {
       page,
       size
@@ -30,16 +30,6 @@ export const comment_delete = (id) => {
   return axios.request({
     method: 'get',
     url: '/api/comment/delete',
-    params: {
-      id
-    }
-  })
-}
-
-export const comment_findById = (id) => {
-  return axios.request({
-    method: 'get',
-    url: '/api/comment/findById',
     params: {
       id
     }

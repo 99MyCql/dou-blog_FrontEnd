@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '@/store/store';
-import { user_findByName } from '@/api/user';
 
 Vue.use(VueRouter); // 使用该插件
 
@@ -9,7 +8,7 @@ Vue.use(VueRouter); // 使用该插件
 const normalRoutes = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/home'
   },
   {
     path: '/home',
@@ -63,6 +62,15 @@ const adminRoutes = [
   }
 ]
 
+// 开放访问路径，不需要登录
+const openPaths = [
+  '/',
+  '/home',
+  '/article',
+  '/login',
+  '/register',
+]
+
 // 路由实例化
 const router = new VueRouter ({
   routes: normalRoutes
@@ -70,60 +78,44 @@ const router = new VueRouter ({
 
 // 设置路由跳转前的验证，全局前置守卫
 router.beforeEach((to, from, next) => {
-  // 如果是访问登录或注册页面，则直接跳转
-  if (to.path == '/login' || to.path == '/register') {
+  // 先从本地缓存中获取用户信息，防止刷新页面后store更新
+  if (store.state.user.userName === '') {
+    store.setUserNameAction(sessionStorage.getItem('userName'));  // 从本地缓存中获取用户名
+    store.setIsLoginAction(sessionStorage.getItem('isLogin'));    // 设置登录状态为true
+    store.setRoleAction(sessionStorage.getItem('role'));          // 储存用户身份
+  }
+
+  // 如果是访问开放路径，则直接跳转
+  if (openPaths.indexOf(to.path) >= 0) {
     next();
     return;
   }
-
-  // 从本地缓存中获取用户登录状态，防止刷新页面后store更新
-  // 如果用户已登录
-  if (localStorage.getItem('isLogin')) {
-    console.log("user have logined");
-    store.setUserNameAction(localStorage.getItem('userName')); // 从本地缓存中获取用户名
-
-    // 如果用户还未确定身份
-    if (store.state.user.role == '') {
-      user_findByName(store.state.user.userName)
-      // 获取用户数据成功
-      .then(resp => {
-        let user = JSON.parse(resp.data.data); // 从后端返回数据(resp.data)的 data 字段中获取用户信息，需要先解析
-        console.log(user);
-        store.setRoleAction(user.role);   // 储存用户身份
-
-        // 如果用户身份是管理员
-        if (user.role == 'admin') {
-          console.log('the user is admin');
-          router.addRoutes(adminRoutes); // 动态添加admin可访问路由表
-          next(to); // 用next()的话，刷新无效
-          console.log('add routers:', adminRoutes);
-        }
-        // 其它用户直接放行
-        else {
-          next();
-        }
-      })
-      // 请求异常
-      .catch(error => {
-        console.log(error);
-        store.setIsLoginAction(false);  // 设置登录状态为 false
-        next('/home');                 // 跳转到登录页面
-      })
-    }
-    // 如果用户已确认过身份
-    else {
-      // 放行
-      next();
+  // 如果不是公开路径，但用户已经登录
+  else if (store.state.user.isLogin) {
+    console.log("user have logged");
+    // 防止刷新后管理员路径丢失
+    if (to.matched.length === 0 && to.path.match('/admin') != null) {
+      router.addAdminRoutes();
+      next('/');
+    } else {
+      next(); // 放行
     }
   }
-  // 如果用户未登录，直接跳转到登录界面
+  // 如果用户未登录访问非公开路径，直接跳转到登录界面
   else {
     next('/login');
   }
 });
 
-// 重置路由
-export function resetRouter() {
+// 自定义方法：添加管理员可访问路径
+router.addAdminRoutes = function() {
+  console.log('the user is admin');
+  router.addRoutes(adminRoutes); // 动态添加admin可访问路由表
+  console.log('add routers:', adminRoutes);
+}
+
+// 自定义方法：重置路由
+router.resetRouter = function() {
   const newRouter = new VueRouter({
     routes: normalRoutes
   })

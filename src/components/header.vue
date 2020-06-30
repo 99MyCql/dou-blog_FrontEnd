@@ -13,8 +13,12 @@
     </div>
     <!-- brand -->
 
-    <div style="z-index:999">
-      <el-dropdown trigger="click">
+    <div style="z-index:999;display:flex;flex-direction: column;justify-content: center;">
+      <div v-if="this.isLogin === false" class="btn">
+        <el-button type="info" plain size="medium" @click="handleRouter('/login')">登 录</el-button>
+      </div>
+
+      <el-dropdown v-else trigger="click">
         <a class="avatar">
           <img src="../assets/avatar.png" style="display:inline-block">
           <i class="el-icon-caret-bottom el-icon--right" style="color:white"></i>
@@ -43,22 +47,36 @@
 
 <script>
 import store from '@/store/store';
-import {resetRouter} from '@/router/router';
+import { user_logout } from '@/api/user.js';
 
 export default {
+  data() {
+    return {
+      isLogin: store.state.user.isLogin
+    }
+  },
   methods: {
     logout() {
-      store.clearStateAction(); // 清除全局缓存
-      resetRouter();            // 重置路由
-      this.$router.push('/');   // 跳转至 login 页面
+      user_logout()
+      .then((resp) => {
+        this.$message.success('退出登录成功');
+      })
+      .catch(error => {
+        console.log(error);
+        this.$message.error('退出登录失败');
+      })
+      store.clearStateAction();     // 清除全局缓存
+      this.$router.resetRouter();   // 重置路由
+      this.isLogin = store.state.user.isLogin;
     },
     handleRouter(router) {
       if (router == '/admin' && store.state.user.role != 'admin') {
         this.$message.warning('莫得权限');
-        return;
       }
       this.$router.push(router);
     }
+  },
+  created() {
   }
 }
 </script>
@@ -105,6 +123,10 @@ export default {
     color:white;
   }
 
+  .header .btn {
+    padding-right: 30px;
+  }
+
   .avatar {
     display: flex;
     flex-direction: row;
@@ -148,6 +170,10 @@ export default {
     display: inline-block;
     font-size: 25px;
     color:white;
+  }
+
+  .header .btn {
+    padding-right: 20px;
   }
 
   .avatar {

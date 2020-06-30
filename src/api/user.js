@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from './setting'
 
 export const count_users = () => {
   return axios.request({
@@ -18,21 +18,28 @@ export const user_login = (name, password) => {
   })
 }
 
-export const user_register = (name, password) => {
+export const user_logout = () => {
+  return axios.request({
+    method: 'get',
+    url: '/api/user/logout'
+  })
+}
+
+export const user_register = (username, password) => {
   return axios.request({
     method: 'post',
     url: '/api/user/register',
     data: {
-      name,
+      username,
       password
     }
   })
 }
 
-export const user_listAll = (page, size) => {
+export const user_listByPage = (page, size) => {
   return axios.request({
     method: 'get',
-    url: '/api/user/listAll',
+    url: '/api/user/listByPage',
     params: {
       page,
       size
@@ -50,30 +57,17 @@ export const user_delete = (id) => {
   })
 }
 
-export const user_findByName = (name) => {
+export const user_getInfo = () => {
   return axios.request({
     method: 'get',
-    url: '/api/user/findByName',
-    params: {
-      name
-    }
-  })
-}
-
-export const user_findById = (id) => {
-  return axios.request({
-    method: 'get',
-    url: '/api/user/findById',
-    params: {
-      id
-    }
+    url: '/api/user/getInfo'
   })
 }
 
 export const user_update = (user) => {
   return axios.request({
     method: 'post',
-    url: '/api/user/update',
+    url: '/api/user/updateInfo',
     data: user
   })
 }

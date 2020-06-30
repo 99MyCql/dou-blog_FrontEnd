@@ -6,16 +6,16 @@
 
     <el-main v-loading="loading">
       <div class="article-wrapper">
-        <page-title :title="article.articleTitle"/>
+        <page-title :title="article.title"/>
 
         <div id="article">
           <div class="article-header">
-            <h1 class="article-title">{{ article.articleTitle }}</h1>
+            <h1 class="article-title">{{ article.title }}</h1>
             <div class="article-meta">
               <span><i class="el-icon-date"></i> published on {{ article.publishDate }} | </span>
               <span><i class="el-icon-edit-outline"></i> modified on {{ article.updateDate }} | </span>
-              <span><i class="el-icon-folder-opened"></i> In {{ article.updateDate }} | </span>
-              <span><i class="el-icon-view"></i> Visitors {{ article.readers }} </span>
+              <span><i class="el-icon-folder-opened"></i> In {{ article.categories }} | </span>
+              <span><i class="el-icon-view"></i> Visitors {{ article.readings }} </span>
             </div>
           </div>
           <!-- article header -->
@@ -45,8 +45,7 @@ import pageTitle from '@/components/pageTitle';
 import mdView from '@/components/mdView';
 import commentArea from '@/components/commentArea';
 import marked from 'marked';
-import { article_findByArticleTitle } from '@/api/article';
-import { user_findById } from '@/api/user';
+import { article_findByTitle } from '@/api/article';
 
 export default {
   components: {
@@ -59,8 +58,8 @@ export default {
     return {
       article: {},
       defaultArtical: {
-        articleTitle: 'default',
-        articleContent: '啥也没有'
+        title: 'default',
+        content: '啥也没有'
       },
       loading: false
     }
@@ -69,15 +68,15 @@ export default {
     // 字符串转换markdown
     compiledMd() {
       let article = this.article;
-      if (this.article.articleTitle == undefined) article = this.defaultArtical;
-      let md = marked(article.articleContent, { sanitize: true });
+      if (this.article.title == undefined) article = this.defaultArtical;
+      let md = marked(article.content, { sanitize: true });
       return md;
     },
     // 通过文章标题获取文章
-    getArticle(articleTitle) {
+    getArticle(title) {
       console.log('=====getArticle()======');
       this.loading = true;
-      article_findByArticleTitle(articleTitle)
+      article_findByTitle(title)
       .then(resp => {
         console.log(resp);
         this.article = JSON.parse(resp.data.data);  // JSON解析后端返回数据(resp.data)中的 data 字段
@@ -92,10 +91,10 @@ export default {
     }
   },
   created() {
-    let articleTitle = this.$router.currentRoute.query.articleTitle;
-    console.log(articleTitle);
-    if (articleTitle != undefined) {
-      this.getArticle(articleTitle);
+    let title = this.$router.currentRoute.query.title;
+    console.log(title);
+    if (title != undefined) {
+      this.getArticle(title);
     }
   }
 }
