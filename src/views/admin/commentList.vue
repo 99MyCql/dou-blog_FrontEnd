@@ -113,24 +113,24 @@ export default {
       this.commentList_size = page_size;
       this.getCommentList();
     },
-    // 展示当前页的用户列表
+    // 展示当前页的评论列表
     showCurPage(curPage) {
       this.commentList_page = curPage;
       console.log(this.commentList_page);
       this.getCommentList();
     },
-    // 展示上一页的用户列表
+    // 展示上一页的评论列表
     showPrePage() {
       this.commentList_page--;
       this.getCommentList();
     },
-    // 展示下一页的用户列表
+    // 展示下一页的评论列表
     showNextPage() {
       this.commentList_page++;
       this.getCommentList();
     },
     /**
-     * 获取用户列表
+     * 获取评论列表
      */
     getCommentList() {
       this.tableLoading = true;
@@ -170,7 +170,7 @@ export default {
         let that = this;  // 保存当前对象
         // 定义一个递归函数来实现顺序请求(上一个删除结束，再进行下一个)。由于js异步问题，for循环删除并非顺序，而且无法得知删除到第几个
         let fun = function () {
-          comment_delete(that.commentList_selected[i].id)
+          comment_delete(that.commentList_selected[i].ID)
           // 请求响应正常，接收到返回数据
           .then(resp => {
             console.log(resp);
@@ -207,7 +207,7 @@ export default {
       })
       // 若确定，则调用api进行删除
       .then(() => {
-        comment_delete(comment.id)
+        comment_delete(comment.ID)
         // 请求响应正常
         .then(resp => {
           console.log(resp);

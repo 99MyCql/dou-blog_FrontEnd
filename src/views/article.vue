@@ -14,7 +14,7 @@
             <div class="article-meta">
               <span><i class="el-icon-date"></i> published on {{ article.publishDate }} | </span>
               <span><i class="el-icon-edit-outline"></i> modified on {{ article.updateDate }} | </span>
-              <span><i class="el-icon-folder-opened"></i> In {{ article.updateDate }} | </span>
+              <span><i class="el-icon-folder-opened"></i> In {{ article.categories }} | </span>
               <span><i class="el-icon-view"></i> Visitors {{ article.readings }} </span>
             </div>
           </div>
