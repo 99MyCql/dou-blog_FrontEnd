@@ -34,15 +34,15 @@
 
       <div class="comment-one" v-for="item in commentList">
         <div class="comment-info">
-          <div class="comment-author" :style="{color:getUsernameColor(item.USERNAME)}">
-            {{ item.USERNAME }}
+          <div class="comment-author" :style="{color:getUsernameColor(item.username)}">
+            {{ item.username }}
           </div>
           <div class="comment-date">
-            {{ item.PUBLISHDATE }}
+            {{ item.publishDate }}
           </div>
         </div>
         <p>
-          {{ item.CONTENT }}
+          {{ item.content }}
         </p>
       </div>
     </div>
@@ -125,7 +125,6 @@ export default {
       // 根据 page, size 值获取评论列表
       comment_listByArticleId(this.articleId, this.commentList_page, this.commentList_size)
       .then(resp => {
-        console.log(resp);
         this.commentList = JSON.parse(resp.data.data);
         console.log('commentList--->', this.commentList);
         this.commentList_loading = false; // 设置评论列表为非加载状态

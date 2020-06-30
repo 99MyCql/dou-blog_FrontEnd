@@ -77,7 +77,6 @@ export default {
     }
   },
   created() {
-    console.log('header:', this.isLogin, typeof this.isLogin);
   }
 }
 </script>

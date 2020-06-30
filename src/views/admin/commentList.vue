@@ -36,7 +36,7 @@
       <el-table-column
         label="评论内容">
         <template slot-scope="scope">
-          {{ scope.row.CONTENT }}
+          {{ scope.row.content }}
         </template>
       </el-table-column>
 
@@ -46,7 +46,7 @@
         <template slot-scope="scope">
           <el-tag size="medium">
             <router-link :to="{ path: '/article', query: { title: scope.row.title }}">
-              {{ scope.row.TITLE }}
+              {{ scope.row.title }}
             </router-link>
           </el-tag>
         </template>
@@ -56,7 +56,7 @@
         label="评论者用户名"
         width="180">
         <template slot-scope="scope">
-          <el-tag size="medium">{{ scope.row.USERNAME }}</el-tag>
+          <el-tag size="medium">{{ scope.row.username }}</el-tag>
         </template>
       </el-table-column>
 
@@ -65,7 +65,7 @@
         width="180">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.PUBLISHDATE }}</span>
+          <span style="margin-left: 10px">{{ scope.row.publishDate }}</span>
         </template>
       </el-table-column>
 

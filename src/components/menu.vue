@@ -8,9 +8,9 @@
     mode="vertical"
     collapse-transition
     :default-active="curIndex"
-    style="height:100%">
+    style="height:100%;">
 
-    <el-submenu index="/admin">
+    <!-- <el-submenu index="/admin">
       <template slot="title">
         <i class="el-icon-document-copy"></i>
         <span slot="title">文章管理</span>
@@ -19,7 +19,12 @@
         <el-menu-item index="/admin/articleList">文章列表</el-menu-item>
         <el-menu-item index="/admin/articleEdit">编辑文章</el-menu-item>
       </el-menu-item-group>
-    </el-submenu>
+    </el-submenu> -->
+
+    <el-menu-item index="/admin/articleList">
+      <i class="el-icon-s-comment"></i>
+      <span slot="title">文章列表</span>
+    </el-menu-item>
 
     <el-menu-item index="/admin/commentList">
       <i class="el-icon-s-comment"></i>
